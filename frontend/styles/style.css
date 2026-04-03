@@ -1,0 +1,294 @@
+@import url('https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@700;800&family=Roboto:wght@300;400;500&display=swap');
+
+/* ── Variables ─────────────────────────────────────────── */
+:root {
+  --c-black:      #101016;
+  --c-dark:       #253237;
+  --c-mid:        #5C6B73;
+  --c-blue-mid:   #9DB4C0;
+  --c-blue-light: #C2DFE3;
+  --c-cyan:       #E0FBFC;
+  --c-white:      #FFFFFF;
+
+  --success-bg:   #d1fae5;
+  --success-text: #065f46;
+  --error-bg:     #fee2e2;
+  --error-text:   #991b1b;
+  --warn-bg:      #fef3c7;
+  --warn-text:    #92400e;
+}
+
+/* ── Reset ─────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Base ──────────────────────────────────────────────── */
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  background-color: var(--c-cyan);
+  color: var(--c-black);
+  min-height: 100vh;
+  padding: 48px 24px;
+}
+
+/* ── Container ─────────────────────────────────────────── */
+.container {
+  max-width: 640px;
+  margin: 0 auto;
+  background: var(--c-white);
+  border: 2px solid var(--c-blue-mid);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* ── Header ────────────────────────────────────────────── */
+.header {
+  background: var(--c-dark);
+  padding: 32px 32px 28px;
+  border-bottom: 2px solid var(--c-blue-mid);
+}
+
+h1 {
+  font-family: 'Schibsted Grotesk', sans-serif;
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--c-cyan);
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+}
+
+.header-sub {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--c-blue-mid);
+  margin-top: 4px;
+}
+
+/* ── Form section ──────────────────────────────────────── */
+.form-section {
+  padding: 28px 32px;
+  background: var(--c-white);
+  border-bottom: 2px solid var(--c-blue-light);
+}
+
+.form-section h2 {
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--c-dark);
+  margin-bottom: 20px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--c-dark);
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+input {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  color: var(--c-black);
+  background: var(--c-white);
+  border: 2px solid var(--c-blue-mid);
+  border-radius: 2px;
+  padding: 8px 12px;
+  outline: none;
+  transition: border-color 0.15s;
+  width: 100%;
+}
+
+input::placeholder {
+  color: var(--c-mid);
+  opacity: 0.6;
+}
+
+input:focus {
+  border-color: var(--c-mid);
+}
+
+input:disabled {
+  background: var(--c-blue-light);
+  opacity: 0.5;
+}
+
+/* ── Botón Agregar ─────────────────────────────────────── */
+#btn-add {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  background: var(--c-dark);
+  color: var(--c-cyan);
+  border: 2px solid var(--c-dark);
+  border-radius: 2px;
+  padding: 10px 20px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 16px;
+  transition: background 0.15s, color 0.15s;
+}
+
+#btn-add:hover {
+  background: var(--c-black);
+  border-color: var(--c-black);
+}
+
+#btn-add:active {
+  background: var(--c-mid);
+  border-color: var(--c-mid);
+}
+
+/* ── Mensaje ───────────────────────────────────────────── */
+#mensaje {
+  margin: 0 32px;
+  min-height: 0;
+  font-size: 13px;
+  font-weight: 400;
+  border-radius: 2px;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.2s ease, padding 0.2s ease, margin-bottom 0.2s ease;
+}
+
+#mensaje.visible {
+  max-height: 48px;
+  padding: 8px 12px;
+  margin-top: 16px;
+}
+
+#mensaje.success {
+  background: var(--success-bg);
+  color: var(--success-text);
+  border: 2px solid var(--success-text);
+}
+
+#mensaje.error {
+  background: var(--error-bg);
+  color: var(--error-text);
+  border: 2px solid var(--error-text);
+}
+
+#mensaje.warn {
+  background: var(--warn-bg);
+  color: var(--warn-text);
+  border: 2px solid var(--warn-text);
+}
+
+/* ── Table section ─────────────────────────────────────── */
+.table-section {
+  padding: 28px 32px 32px;
+}
+
+.table-section h2 {
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--c-dark);
+  margin-bottom: 16px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 2px solid var(--c-blue-mid);
+  border-radius: 2px;
+}
+
+thead tr {
+  background: var(--c-dark);
+}
+
+th {
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--c-cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 2px solid var(--c-blue-mid);
+}
+
+tbody tr {
+  background: var(--c-white);
+  transition: background 0.12s;
+}
+
+tbody tr:nth-child(even) {
+  background: var(--c-cyan);
+}
+
+tbody tr:hover {
+  background: var(--c-blue-light);
+}
+
+td {
+  font-size: 14px;
+  color: var(--c-black);
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--c-blue-light);
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.empty-row td {
+  text-align: center;
+  color: var(--c-mid);
+  font-style: italic;
+  padding: 24px;
+}
+
+/* ── Botón eliminar ────────────────────────────────────── */
+.btn-delete {
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  background: transparent;
+  color: var(--error-text);
+  border: 2px solid var(--error-text);
+  border-radius: 2px;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.btn-delete:hover {
+  background: var(--error-text);
+  color: var(--c-white);
+}
+
+td.actions {
+  width: 80px;
+  text-align: center;
+}
+
+th.actions {
+  width: 80px;
+  text-align: center;
+}
+
+/* ── Responsive ────────────────────────────────────────── */
+@media (max-width: 540px) {
+  body { padding: 16px 8px; }
+  .header, .form-section, .table-section { padding-left: 16px; padding-right: 16px; }
+  .form-grid { grid-template-columns: 1fr 1fr; }
+}

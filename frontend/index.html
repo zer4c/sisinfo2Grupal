@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Registro de Profesiones</title>
+  <link rel="stylesheet" href="styles/style.css"/>
+</head>
+<body>
+
+  <div class="container">
+
+    <div class="header">
+      <h1>Registro de Profesiones</h1>
+      <p class="header-sub">Gestión de profesiones y salarios</p>
+    </div>
+
+    <div class="form-section">
+      <h2>Nueva profesión</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="profesion-name">Profesión</label>
+          <input type="text" id="profesion-name" placeholder="Ingeniero"/>
+        </div>
+        <div class="form-group">
+          <label for="profesion-salary">Salario</label>
+          <input type="number" id="profesion-salary" placeholder="5000" min="0"/>
+        </div>
+        <div class="form-group">
+          <label for="profesion-pos">Posición</label>
+          <input type="number" id="profesion-pos" placeholder="1" min="1"/>
+        </div>
+        <button id="btn-add">Agregar</button>
+      </div>
+    </div>
+
+    <p id="mensaje"></p>
+
+    <div class="table-section">
+      <h2>Profesiones registradas</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Posición</th>
+            <th>Profesión</th>
+            <th>Salario</th>
+            <th class="actions">Acción</th>
+          </tr>
+        </thead>
+        <tbody id="profesiones-tbody">
+          <tr class="empty-row">
+            <td colspan="4">Cargando datos...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <script src="scripts/script.js"></script>
+</body>
+</html>
