@@ -1,0 +1,1 @@
+from src.modules.profesion.model import Profesion #noqa
