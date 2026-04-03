@@ -20,7 +20,7 @@ class ProfessionServices:
     @staticmethod
     async def create_profession(session: SessionDep, profession: ProfessionBase):
         try:
-            new_profession = profession(
+            new_profession = Profesion(
                 name=profession.name,
                 position=profession.position,
                 salary=profession.salary
