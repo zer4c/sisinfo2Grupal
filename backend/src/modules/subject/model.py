@@ -1,17 +1,22 @@
 from src.core.database import Base
-from sqlalchemy import String, Date, ForeignKey, Integer
+from sqlalchemy import String, Date, ForeignKey, Integer, ForeignKeyConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from datetime import date
 
 
 class Enrollment(Base):
     __tablename__ = "enrollments"
-    id: Mapped[int] = mapped_column(primary_key=True, index=True)
-    code: Mapped[str] = mapped_column(ForeignKey("subjects.code"), nullable=False)
-    period: Mapped[date] = mapped_column(ForeignKey("subjects.period"), nullable=False)
-    teacher_id: Mapped[int] = mapped_column(
-        ForeignKey("subjects.teacher_id"), nullable=False
+
+    __table_args__ = (
+        ForeignKeyConstraint(
+            ["code", "period", "teacher_id"],
+            ["subjects.code", "subjects.period", "subjects.teacher_id"],
+        ),
     )
+    id: Mapped[int] = mapped_column(primary_key=True, index=True)
+    code: Mapped[str] = mapped_column(String, nullable=False)
+    period: Mapped[date] = mapped_column(Date, nullable=False)
+    teacher_id: Mapped[int] = mapped_column(Integer, nullable=False)
     student_id: Mapped[int] = mapped_column(ForeignKey("students.id"), nullable=False)
 
 
