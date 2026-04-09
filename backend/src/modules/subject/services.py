@@ -1,3 +1,4 @@
+from sqlalchemy import select
 from src.core.database import SessionDep
 
 from src.modules.subject.model import Subject
@@ -8,6 +9,20 @@ from src.modules.subject.schemas import (
 
 
 class SubjectService():
+    @staticmethod
+    async def get_subject_by_name(session: SessionDep, subject_name: str):
+        try:
+            subject = await session.execute(
+                select(Subject).
+                where(Subject.name == subject_name)
+            )
+            subject_orm = subject.scalars().one_or_none()
+            if not subject_orm:
+                return None
+            return SubjectResponse.model_validate(subject_orm)
+        except Exception:
+            raise
+        
     @staticmethod
     async def create_subject(session: SessionDep, subject_info: SubjectBase):
         try:
