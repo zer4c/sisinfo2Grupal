@@ -1,0 +1,10 @@
+from src.core.database import Base
+from sqlalchemy import String, Numeric
+from sqlalchemy.orm import Mapped, mapped_column
+
+
+class Student(Base):
+    __tablename__ = "students"
+    id: Mapped[int] = mapped_column(primary_key=True, index=True)
+    name: Mapped[str] = mapped_column(String, nullable=False)
+    age : Mapped[int] = mapped_column(Numeric, nullable=False)    
