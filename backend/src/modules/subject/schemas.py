@@ -12,6 +12,7 @@ class SubjectBase(BaseModel):
 
 class SubjectResponse(BaseModel):
     model_config= ConfigDict(from_attributes=True)
+    id: int
     code: str
     period: date
     teacher_id: int

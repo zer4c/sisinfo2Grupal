@@ -17,12 +17,12 @@ async def create_subject(session: SessionDep, subject_info: SubjectBase):
     "/",
     status_code=status.HTTP_200_OK,
 )
-async def get_all_sbjects_for_member(session: SessionDep, teacher_id: int):
+async def get_all_sbjects_for_teacher(session: SessionDep, teacher_id: int):
     return await SubjectController.get_all_subjects_for_teacher(session, teacher_id)
 
 @router.get(
-    "/{code}",
+    "/{id}",
     status_code=status.HTTP_200_OK,
 )
-async def read_subject(session: SessionDep, code: int):
-    return await SubjectController.read_subject(session, code)
+async def read_subject(session: SessionDep, id: int):
+    return await SubjectController.read_subject(session, id)

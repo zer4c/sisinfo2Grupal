@@ -14,8 +14,8 @@ class SubjectController():
         return {"message": "subject created", "ok": True, "data": subject}
     
     @staticmethod
-    async def read_subject(session: SessionDep, code: int):
-        subject = await SubjectService.get_subject_by_code(session, code)
+    async def read_subject(session: SessionDep, id: int):
+        subject = await SubjectService.get_subject_by_id(session, id)
         if not subject:
             raise HTTPException(status_code= 404, detail="Subject not found")
         return {"message": "subject found", "ok": True, "data": subject}
