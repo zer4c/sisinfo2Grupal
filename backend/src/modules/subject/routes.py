@@ -12,3 +12,17 @@ router = APIRouter()
 )
 async def create_subject(session: SessionDep, subject_info: SubjectBase):
     return await SubjectController.create_subject(session, subject_info)
+
+@router.get(
+    "/",
+    status_code=status.HTTP_200_OK,
+)
+async def get_all_sbjects_for_member(session: SessionDep, teacher_id: int):
+    return await SubjectController.get_all_subjects_for_teacher(session, teacher_id)
+
+@router.get(
+    "/{code}",
+    status_code=status.HTTP_200_OK,
+)
+async def read_subject(session: SessionDep, code: int):
+    return await SubjectController.read_subject(session, code)
