@@ -22,6 +22,35 @@ class SubjectService():
             return SubjectResponse.model_validate(subject_orm)
         except Exception:
             raise
+
+    @staticmethod
+    async def get_subject_by_id(session: SessionDep, id: int):
+        try:
+            subject = await session.execute(
+                select(Subject).
+                where(Subject.id == id)
+            )
+            subject_orm = subject.scalars().one_or_none()
+            if not subject_orm:
+                return None
+            return SubjectResponse.model_validate(subject_orm)
+        except Exception:
+            raise
+    
+    @staticmethod
+    async def get_all_subjects_for_teacher(session: SessionDep, teacher_id: int):
+        try:
+            subjects = await session.execute(
+                select(Subject).
+                where(Subject.teacher_id == teacher_id).
+                order_by(Subject.max_students)
+            )
+            subjects_orm = subjects.scalars().all()
+            if not subjects_orm:
+                return None
+            return [SubjectResponse.model_validate(s) for s in subjects_orm]
+        except Exception:
+            raise
         
     @staticmethod
     async def create_subject(session: SessionDep, subject_info: SubjectBase):
