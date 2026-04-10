@@ -8,6 +8,7 @@ import src.core.mapping_database  # noqa
 from src.core import api
 from src.core.config import config
 from src.core.database import engine, create_db_and_tables
+from fastapi.middleware.cors import CORSMiddleware
 
 logger = logging.getLogger("uvicorn.info")
 
@@ -25,5 +26,13 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(title=config.app_name, lifespan=lifespan)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], 
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.include_router(api.router, prefix="/api")

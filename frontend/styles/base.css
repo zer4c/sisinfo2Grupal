@@ -1,0 +1,58 @@
+:root {
+  /* Colors */
+  --primary: #253237;
+  --bg: #E0FBFC;
+  --text-secondary: #5C6B73;
+  --border: #9DB4C0;
+  --card-bg: #C2DFE3;
+  --success: #2e7d32;
+  --error: #c62828;
+  --white: #ffffff;
+  
+  /* Spacing (multiples of 4px) */
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  
+  /* Typography */
+  --font-title: 'Roboto', sans-serif;
+  --font-body: 'Roboto', sans-serif;
+  --font-size-title: 26px;
+  --font-size-subtitle: 18px;
+  --font-size-body: 14px;
+  
+  /* Border */
+  --border-width: 2px;
+  --border-radius: 8px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--white);
+  color: var(--primary);
+  font-size: var(--font-size-body);
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+h1 {
+  font-family: var(--font-title);
+  font-size: var(--font-size-title);
+  font-weight: 500;
+}
+
+button {
+  font-family: inherit;
+}
+
+input, textarea {
+  font-family: inherit;
+}

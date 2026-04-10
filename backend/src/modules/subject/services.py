@@ -27,6 +27,7 @@ class SubjectService():
     async def create_subject(session: SessionDep, subject_info: SubjectBase):
         try:
             new_subject = Subject(
+                code = subject_info.code,
                 period = subject_info.period,
                 teacher_id = subject_info.teacher_id,
                 name = subject_info.name,
