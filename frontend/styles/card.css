@@ -1,13 +1,6 @@
-.classes-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-  width: 100%;
-  max-width: 640px;
-}
-
 .subject-card {
-  width: 100%;
+  width: 620px;
+  flex-shrink: 0;
   border-radius: var(--border-radius);
   overflow: hidden;
   border: var(--border-width) solid var(--border);

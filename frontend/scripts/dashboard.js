@@ -46,7 +46,6 @@ document.getElementById(MODAL_ID).addEventListener("click", (e) => {
 });
 
 const form = document.getElementById("subject-form");
-const message = document.getElementById("message");
 const button = document.getElementById("submit-btn");
 
 form.addEventListener("submit", async (e) => {
@@ -74,15 +73,15 @@ form.addEventListener("submit", async (e) => {
 
     await createSubject({ ...data, max_students: Number(data.max_students) });
 
-    showMessage("¡Clase creada exitosamente!", "success");
     form.reset();
     setTimeout(() => {
       closeModal(MODAL_ID);
+      showToast('success', 'Clase creada exitosamente.');
       loadClasses();
     }, 1500);
 
   } catch (err) {
-    showMessage("Error al crear la clase. Intenta de nuevo.", "error");
+    showToast('error', err.message || 'Error al crear la clase.');
   } finally {
     button.disabled = false;
     button.querySelector('.btn-text').textContent = 'Crear Clase';
@@ -104,12 +103,6 @@ function showErrors(errors) {
 function clearErrors() {
   document.querySelectorAll('.field-error').forEach(el => el.remove());
   document.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
-}
-
-function showMessage(text, type) {
-  message.textContent = text;
-  message.className = `message show ${type}`;
-  setTimeout(() => message.classList.remove('show'), 5000);
 }
 
 loadClasses();
