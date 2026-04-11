@@ -27,7 +27,7 @@ async function loadClasses() {
     `).join('');
 
   } catch (err) {
-    list.innerHTML = `<p style="color: var(--text-secondary);">No se pudieron cargar las clases.</p>`;
+    list.innerHTML = `<p style="color: var(--text-secondary);">No se pudieron cargar las clases</p>`;
   }
 }
 
