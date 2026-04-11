@@ -17,7 +17,7 @@ async def create_subject(session: SessionDep, subject_info: SubjectBase):
     "/",
     status_code=status.HTTP_200_OK,
 )
-async def get_all_sbjects_for_teacher(session: SessionDep, teacher_id: int):
+async def get_all_subjects_for_teacher(session: SessionDep, teacher_id: int):
     return await SubjectController.get_all_subjects_for_teacher(session, teacher_id)
 
 @router.get(

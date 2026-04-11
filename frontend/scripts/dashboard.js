@@ -1,8 +1,35 @@
-import { createSubject } from "./api/subjectApi.js";
+import { createSubject, getSubjectsByTeacher } from "./api/subjectApi.js";
 import { validateForm } from "./formValidator.js";
 import { openModal, closeModal } from "./modal.js";
 
 const MODAL_ID = "create-subject-modal";
+const TEACHER_ID = 1;
+
+async function loadClasses() {
+  const list = document.getElementById("classes-list");
+  try {
+    const res = await getSubjectsByTeacher(TEACHER_ID);
+    const subjects = res.data;
+
+    list.innerHTML = subjects.map(s => `
+      <div class="subject-card">
+        <div class="subject-card-header">
+          <h2>${s.name}</h2>
+        </div>
+        <div class="subject-card-body">
+          <div class="subject-card-row">
+            <span class="subject-card-period">${s.period}</span>
+            <span class="subject-card-students">#${s.max_students} estudiantes</span>
+          </div>
+          <span class="subject-card-description">${s.description || 'Sin descripción'}</span>
+        </div>
+      </div>
+    `).join('');
+
+  } catch (err) {
+    list.innerHTML = `<p style="color: var(--text-secondary);">No se pudieron cargar las clases</p>`;
+  }
+}
 
 document.getElementById("btn-open-modal").addEventListener("click", () => {
   openModal(MODAL_ID);
@@ -47,8 +74,11 @@ form.addEventListener("submit", async (e) => {
     await createSubject({ ...data, max_students: Number(data.max_students) });
 
     form.reset();
-    closeModal(MODAL_ID);
-    showToast('success', 'Clase creada exitosamente.');
+    setTimeout(() => {
+      closeModal(MODAL_ID);
+      showToast('success', 'Clase creada exitosamente.');
+      loadClasses();
+    }, 1500);
 
   } catch (err) {
     showToast('error', err.message || 'Error al crear la clase.');
@@ -74,3 +104,5 @@ function clearErrors() {
   document.querySelectorAll('.field-error').forEach(el => el.remove());
   document.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
 }
+
+loadClasses();
