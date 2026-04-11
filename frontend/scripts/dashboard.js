@@ -1,6 +1,7 @@
 import { createSubject, getSubjectsByTeacher } from "./api/subjectApi.js";
 import { validateForm } from "./formValidator.js";
 import { openModal, closeModal } from "./modal.js";
+import { initShareModal, openShareModal } from "./shareCode.js";
 
 const MODAL_ID = "create-subject-modal";
 const TEACHER_ID = 1;
@@ -22,10 +23,14 @@ async function loadClasses() {
             <span class="subject-card-students">#${s.max_students} estudiantes</span>
           </div>
           <span class="subject-card-description">${s.description || 'Sin descripción'}</span>
+          <button class="btn-share" data-code="${s.code}">Compartir código</button>
         </div>
       </div>
     `).join('');
 
+    document.querySelectorAll('.btn-share').forEach(btn => {
+      btn.addEventListener('click', () => openShareModal(btn.dataset.code));
+    });
   } catch (err) {
     list.innerHTML = `<p style="color: var(--text-secondary);">No se pudieron cargar las clases</p>`;
   }
@@ -104,5 +109,5 @@ function clearErrors() {
   document.querySelectorAll('.field-error').forEach(el => el.remove());
   document.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
 }
-
+initShareModal();
 loadClasses();
