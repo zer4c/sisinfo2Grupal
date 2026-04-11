@@ -19,7 +19,6 @@ document.getElementById(MODAL_ID).addEventListener("click", (e) => {
 });
 
 const form = document.getElementById("subject-form");
-const message = document.getElementById("message");
 const button = document.getElementById("submit-btn");
 
 form.addEventListener("submit", async (e) => {
@@ -36,7 +35,6 @@ form.addEventListener("submit", async (e) => {
   };
 
   const errors = validateForm(data);
-
   if (Object.keys(errors).length > 0) {
     showErrors(errors);
     return;
@@ -48,12 +46,12 @@ form.addEventListener("submit", async (e) => {
 
     await createSubject({ ...data, max_students: Number(data.max_students) });
 
-    showMessage("¡Clase creada exitosamente!", "success");
     form.reset();
-    setTimeout(() => closeModal(MODAL_ID), 1500);
+    closeModal(MODAL_ID);
+    showToast('success', 'Clase creada exitosamente.');
 
   } catch (err) {
-    showMessage("Error al crear la clase. Intenta de nuevo.", "error");
+    showToast('error', err.message || 'Error al crear la clase.');
   } finally {
     button.disabled = false;
     button.querySelector('.btn-text').textContent = 'Crear Clase';
@@ -64,9 +62,7 @@ function showErrors(errors) {
   for (const field in errors) {
     const input = document.getElementById(field);
     if (!input) continue;
-
     input.classList.add('input-error');
-
     const errorEl = document.createElement('span');
     errorEl.className = 'field-error';
     errorEl.textContent = errors[field];
@@ -77,10 +73,4 @@ function showErrors(errors) {
 function clearErrors() {
   document.querySelectorAll('.field-error').forEach(el => el.remove());
   document.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
-}
-
-function showMessage(text, type) {
-  message.textContent = text;
-  message.className = `message show ${type}`;
-  setTimeout(() => message.classList.remove('show'), 5000);
 }
