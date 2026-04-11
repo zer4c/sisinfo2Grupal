@@ -1,8 +1,35 @@
-import { createSubject } from "./api/subjectApi.js";
+import { createSubject, getSubjectsByTeacher } from "./api/subjectApi.js";
 import { validateForm } from "./formValidator.js";
 import { openModal, closeModal } from "./modal.js";
 
 const MODAL_ID = "create-subject-modal";
+const TEACHER_ID = 1;
+
+async function loadClasses() {
+  const list = document.getElementById("classes-list");
+  try {
+    const res = await getSubjectsByTeacher(TEACHER_ID);
+    const subjects = res.data;
+
+    list.innerHTML = subjects.map(s => `
+      <div class="subject-card">
+        <div class="subject-card-header">
+          <h2>${s.name}</h2>
+        </div>
+        <div class="subject-card-body">
+          <div class="subject-card-row">
+            <span class="subject-card-period">${s.period}</span>
+            <span class="subject-card-students">#${s.max_students} estudiantes</span>
+          </div>
+          <span class="subject-card-description">${s.description || 'Sin descripción'}</span>
+        </div>
+      </div>
+    `).join('');
+
+  } catch (err) {
+    list.innerHTML = `<p style="color: var(--text-secondary);">No se pudieron cargar las clases.</p>`;
+  }
+}
 
 document.getElementById("btn-open-modal").addEventListener("click", () => {
   openModal(MODAL_ID);
@@ -36,7 +63,6 @@ form.addEventListener("submit", async (e) => {
   };
 
   const errors = validateForm(data);
-
   if (Object.keys(errors).length > 0) {
     showErrors(errors);
     return;
@@ -50,7 +76,10 @@ form.addEventListener("submit", async (e) => {
 
     showMessage("¡Clase creada exitosamente!", "success");
     form.reset();
-    setTimeout(() => closeModal(MODAL_ID), 1500);
+    setTimeout(() => {
+      closeModal(MODAL_ID);
+      loadClasses();
+    }, 1500);
 
   } catch (err) {
     showMessage("Error al crear la clase. Intenta de nuevo.", "error");
@@ -64,9 +93,7 @@ function showErrors(errors) {
   for (const field in errors) {
     const input = document.getElementById(field);
     if (!input) continue;
-
     input.classList.add('input-error');
-
     const errorEl = document.createElement('span');
     errorEl.className = 'field-error';
     errorEl.textContent = errors[field];
@@ -84,3 +111,5 @@ function showMessage(text, type) {
   message.className = `message show ${type}`;
   setTimeout(() => message.classList.remove('show'), 5000);
 }
+
+loadClasses();
