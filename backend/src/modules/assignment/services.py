@@ -25,6 +25,21 @@ class AssignmentService():
             raise
 
     @staticmethod
+    async def get_all_assignment_for_subject(session: SessionDep, id_subject: int):
+        try:
+            result = await session.execute(
+                select(Assignment).
+                where(Assignment.subject_id == id_subject).
+                order_by(Assignment.created_at.desc())
+            )
+            assignment_orm = result.scalars().all()
+            if not assignment_orm:
+                return None
+            return [AssignmentResponse.model_validate(a) for a in assignment_orm]
+        except Exception:
+            raise
+
+    @staticmethod
     async def create_assignment(session: SessionDep, assignment_info: AssignmentBase):
         try:
             new_assignment = Assignment(
