@@ -61,7 +61,7 @@ form.addEventListener("submit", async (e) => {
     code: document.getElementById("code").value.trim(),
     name: document.getElementById("name").value.trim(),
     period: document.getElementById("period").value,
-    teacher_id: Number(document.getElementById("teacher_id").value),
+    teacher_id: Number(localStorage.getItem('user_id')),
     max_students: document.getElementById("max_students").value.trim(),
     description: document.getElementById("description").value.trim() || ""
   };
