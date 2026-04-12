@@ -16,7 +16,6 @@ class Enrollment(Base):
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
     id_subject: Mapped[int] = mapped_column(ForeignKey("subjects.id"), nullable=False)
     id_student: Mapped[int] = mapped_column(ForeignKey("students.id"), nullable=False)
-    subject: Mapped["Subject"] = relationship("Subject")
 
 
 class Subject(Base):
@@ -33,5 +32,5 @@ class Subject(Base):
     max_students: Mapped[int] = mapped_column(Integer, nullable=False)
 
     teacher: Mapped["Teacher"] = relationship(
-        "src.modules.database.teacher.Teacher", back_populates="subject"
+        "src.modules.teacher.model.Teacher", back_populates="subject"
     )

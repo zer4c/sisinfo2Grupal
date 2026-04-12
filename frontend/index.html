@@ -2,12 +2,41 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mi Sistema</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/base.css" />
+  <link rel="stylesheet" href="styles/card-select-rol.css"">
+  <link rel="stylesheet" href="styles/toast.css" />
+  <script src="scripts/toast.js"></script>
 </head>
 <body>
-  <h1>Bienvenido</h1>
-  <nav>
-    <a href="pages/dashboard.html">Crear materia</a>
-  </nav>
+  <div class="index-container">
+    <div class="index-card">
+      <div class="index-card-header">
+        <h1>Bienvenido</h1>
+        <p>Selecciona tu rol e ingresa tu ID</p>
+      </div>
+      <div class="index-card-body">
+        <div>
+          <label>¿Quién eres?</label>
+          <div class="role-selector">
+            <button class="role-btn" id="btn-docente">Docente</button>
+            <button class="role-btn" id="btn-estudiante">Estudiante</button>
+          </div>
+        </div>
+        <div>
+          <label for="user-id">Tu ID</label>
+          <input type="number" id="user-id" placeholder="Ingresa tu ID" min="1" />
+        </div>
+      </div>
+      <div class="index-card-footer">
+        <button class="btn-continuar" id="btn-confirm">Continuar</button>
+      </div>
+    </div>
+  </div>
+  <script src="scripts/selectRol.js"></script>
 </body>
 </html>
