@@ -7,31 +7,34 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/base.css" />
+  <link rel="stylesheet" href="styles/card-select-rol.css"">
 </head>
 <body>
-  <div>
-    <div>
-      <div>
+  <div class="index-container">
+    <div class="index-card">
+      <div class="index-card-header">
         <h1>Bienvenido</h1>
-        <p>Selecciona tu rol e ingresa tu ID para continuar</p>
+        <p>Selecciona tu rol e ingresa tu ID</p>
       </div>
-      <diviv>
+      <div class="index-card-body">
+        <div>
           <label>¿Quién eres?</label>
-          <div>
-            <button>Docente</button>
-            <button id="btn-estudiante">Estudiante</button>
+          <div class="role-selector">
+            <button class="role-btn" id="btn-docente">Docente</button>
+            <button class="role-btn" id="btn-estudiante">Estudiante</button>
           </div>
         </div>
         <div>
-          <label>Tu ID</label>
+          <label for="user-id">Tu ID</label>
           <input type="number" id="user-id" placeholder="Ingresa tu ID" min="1" />
+          <span class="field-error" id="id-error">Ingresa un ID válido</span>
         </div>
-        <div>
-          <button>Continuar</button>
-        </div>
+      </div>
+      <div class="index-card-footer">
+        <button class="btn-continuar" id="btn-confirm">Continuar</button>
       </div>
     </div>
   </div>
-
 </body>
 </html>

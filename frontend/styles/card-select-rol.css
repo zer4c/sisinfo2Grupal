@@ -1,0 +1,94 @@
+.index-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.index-card {
+  background: var(--white);
+  border: var(--border-width) solid var(--primary);
+  border-radius: var(--border-radius);
+  width: 320px;
+  overflow: hidden;
+}
+
+.index-card-header {
+  background: var(--primary);
+  padding: var(--space-6);
+}
+
+.index-card-header h1 {
+  color: var(--white);
+  font-weight: 500;
+}
+
+.index-card-header p {
+  color: var(--card-bg);
+}
+
+.index-card-body {
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.index-card-body input {
+  width: 100%;
+  padding: var(--space-3);
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--border-radius);
+  font-family: inherit;
+  color: var(--primary);
+}
+
+.index-card-body input::placeholder {
+  color: var(--border);
+}
+
+.role-selector {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.role-btn {
+  flex: 1;
+  padding: var(--space-3);
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--border-radius);
+  background: var(--text-secondary);
+  color: var(--white);
+  font-family: inherit;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.role-btn.active,
+.role-btn:hover:not(.active) {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+.index-card-footer {
+  padding: var(--space-4) var(--space-6);
+  border-top: var(--border-width) solid var(--card-bg);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-continuar {
+  padding: var(--space-3) var(--space-6);
+  background: var(--card-bg);
+  color: var(--primary);
+  border: none;
+  border-radius: var(--border-radius);
+  font-family: inherit;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn-continuar:hover {
+  background: var(--primary);
+  color: var(--white);
+}
