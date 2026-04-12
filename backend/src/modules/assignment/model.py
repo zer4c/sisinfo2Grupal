@@ -20,7 +20,7 @@ class Submission(Base):
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
     student_id: Mapped[int] = mapped_column(ForeignKey("students.id"), nullable=False)
     assignment_id: Mapped[int] = mapped_column(ForeignKey("assignments.id"), nullable=False)
-    state_id: Mapped[int] = mapped_column(ForeignKey("states.id"), nullable=False)
+    state_id: Mapped[int] = mapped_column(ForeignKey("type_states.id"), nullable=False)
     grade: Mapped[int] = mapped_column(Integer, nullable=True)
 
 class Assignment(Base):
@@ -35,7 +35,7 @@ class Assignment(Base):
     points: Mapped[int] = mapped_column(Integer, nullable=False)
 
 class TypeState(Base):
-    __tablename__ = "states"
+    __tablename__ = "type_states"
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
     state: Mapped[str] = mapped_column(String, nullable=False)
 
