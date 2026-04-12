@@ -14,11 +14,18 @@ async def create_subject(session: SessionDep, subject_info: SubjectBase):
     return await SubjectController.create_subject(session, subject_info)
 
 @router.get(
-    "/",
+    "/subjects_teacher",
     status_code=status.HTTP_200_OK,
 )
 async def get_all_subjects_for_teacher(session: SessionDep, teacher_id: int):
     return await SubjectController.get_all_subjects_for_teacher(session, teacher_id)
+
+@router.get(
+        "/subjects_student",
+        status_code=status.HTTP_200_OK,
+)
+async def get_all_subjects_for_student(session: SessionDep, id_student: int):
+    return await SubjectController.get_all_subjects_for_student(session, id_student)
 
 @router.post(
     "/enrollment",

@@ -26,11 +26,11 @@ class SubjectService():
             raise
 
     @staticmethod
-    async def get_subject_by_id(session: SessionDep, id: int):
+    async def get_subject_by_id(session: SessionDep, id_subject: int):
         try:
             subject = await session.execute(
                 select(Subject).
-                where(Subject.id == id)
+                where(Subject.id == id_subject)
             )
             subject_orm = subject.scalars().one_or_none()
             if not subject_orm:
@@ -66,6 +66,22 @@ class SubjectService():
             if not enrollment_orm:
                 return None
             return EnrollmentResponse.model_validate(enrollment_orm)
+        except Exception:
+            raise
+
+    @staticmethod
+    async def get_subjects_for_student(session: SessionDep, id_student: int):
+        try:
+            subjects = await session.execute(
+                select(Subject).
+                join(Enrollment).
+                where(Enrollment.id_student == id_student).
+                order_by(Subject.name)
+            )
+            subjects_orm = subjects.scalars().all()
+            if not subjects_orm:
+                return None
+            return [SubjectResponse.model_validate(s) for s in subjects_orm]
         except Exception:
             raise
         
