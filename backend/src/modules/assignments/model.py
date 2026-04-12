@@ -11,17 +11,16 @@ from datetime import date
 class Submission(Base):
     __tablename__ = "submissions"
 
-    id: Mapped[int] = mapped_column(primary_key=True, index=True)
-    id_student: Mapped[int] = mapped_column(ForeignKey("students.id"), nullable=False)
-    id_assignment: Mapped[int] = mapped_column(ForeignKey("assignments.id"), nullable=False)
+    student_id: Mapped[int] = mapped_column(ForeignKey("students.id"), primary_key=True)
+    assignment_id: Mapped[int] = mapped_column(ForeignKey("assignments.id"), primary_key=True)
     state: Mapped[str] = mapped_column(String, nullable=False)
     grade: Mapped[int] = mapped_column(Integer, nullable=True)
-    
+
 class Assignment(Base):
     __tablename__ = "assignments"
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
-    id_subject: Mapped[int] = mapped_column(ForeignKey("subjects.id"), nullable=False)
+    subject_id: Mapped[int] = mapped_column(ForeignKey("subjects.id"), nullable=False)
     title: Mapped[str] = mapped_column(String, nullable=False)
     description: Mapped[str] = mapped_column(String, nullable=True)
     created_at: Mapped[date] = mapped_column(Date, nullable=False)
