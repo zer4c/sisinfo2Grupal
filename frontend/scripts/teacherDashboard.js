@@ -22,14 +22,24 @@ async function loadClasses() {
             <span class="subject-card-period">${s.period}</span>
             <span class="subject-card-students">#${s.max_students} estudiantes</span>
           </div>
-          <span class="subject-card-description">${s.description || 'Sin descripción'}</span>
-          <button class="btn-share" data-code="${s.code}">Compartir código</button>
-        </div>
+            <span class="subject-card-description">${s.description || 'Sin descripción'}</span>
+            <button class="btn-card-action btn-share" data-code="${s.code}">Compartir código</button>
+            <button class="btn-card-action btn-view" data-id="${s.id}" data-name="${s.name}" data-code="${s.code}">Ver clase</button>
+          </div>
       </div>
     `).join('');
 
     document.querySelectorAll('.btn-share').forEach(btn => {
       btn.addEventListener('click', () => openShareModal(btn.dataset.code));
+    });
+
+    document.querySelectorAll('.btn-view').forEach(btn => {
+      btn.addEventListener('click', () => {
+        localStorage.setItem('subject_id', btn.dataset.id);
+        localStorage.setItem('subject_name', btn.dataset.name);
+        localStorage.setItem('subject_code', btn.dataset.code);
+        window.location.href = 'class.html';
+      });
     });
   } catch (err) {
     list.innerHTML = `<p style="color: var(--text-secondary);">No se pudieron cargar las clases</p>`;
