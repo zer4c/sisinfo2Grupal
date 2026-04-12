@@ -41,3 +41,31 @@ class AssignmentService():
             return AssignmentResponse.model_validate(new_assignment)
         except Exception:
             raise
+        
+    @staticmethod
+    async def get_assignment_by_id(session: SessionDep, assignment_id: int):
+        try:
+            result = await session.execute(
+                select(Assignment).
+                where(Assignment.id == assignment_id)
+            )
+            assignment_orm = result.scalars().one_or_none()
+            if not assignment_orm:
+                return None
+            return AssignmentResponse.model_validate(assignment_orm)
+        except Exception:
+            raise
+
+    @staticmethod
+    async def get_all_assignments_for_subject(session: SessionDep, subject_id: int):
+        try:
+            result = await session.execute(
+                select(Assignment).
+                where(Assignment.subject_id == subject_id)
+            )
+            assignments_orm = result.scalars().all()
+            if not assignments_orm:
+                return None
+            return [AssignmentResponse.model_validate(a) for a in assignments_orm]
+        except Exception:
+            raise
