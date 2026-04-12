@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="../styles/dashboard.css" />
   <link rel="stylesheet" href="../styles/card.css"/>
   <link rel="stylesheet" href="../styles/toast.css" />
+  <link rel="stylesheet" href="../styles/share-code.css" />
   <script src="../scripts/toast.js"></script>
 </head>
 <body>
@@ -69,7 +70,21 @@
       </form>
     </div>
   </div>
-
+  <div class="modal-overlay" id="share-code-modal">
+    <div class="form-card">
+      <div class="form-header">
+        <h1 class="form-title">Código de la Clase</h1>
+        <p class="form-subtitle">Comparte este código con tus estudiantes</p>
+      </div>
+      <div class="share-body">
+        <span id="share-code-text" class="share-code"></span>
+        <button class="btn-primary" id="btn-copy-code">Copiar código</button>
+      </div>
+      <div class="form-actions">
+        <button class="btn-secondary" id="btn-close-share-modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
   <script type="module" src="../scripts/dashboard.js"></script>
 </body>
 </html>
