@@ -37,3 +37,8 @@
 #share-code-modal .form-card {
   max-width: 380px;
 }
+
+#share-code-modal .form-actions {
+  justify-content: center;
+  padding-bottom: var(--space-4);
+}
