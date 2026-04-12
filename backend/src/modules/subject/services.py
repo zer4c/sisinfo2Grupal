@@ -1,10 +1,12 @@
 from sqlalchemy import select
 from src.core.database import SessionDep
 
-from src.modules.subject.model import Subject
+from src.modules.subject.model import Subject, Enrollment
 from src.modules.subject.schemas import (
     SubjectBase, 
-    SubjectResponse
+    SubjectResponse,
+    EnrollmentBase,
+    EnrollmentResponse
 )
 
 
@@ -51,6 +53,21 @@ class SubjectService():
             return [SubjectResponse.model_validate(s) for s in subjects_orm]
         except Exception:
             raise
+    
+    @staticmethod
+    async def get_enrollment(session: SessionDep, enrollment: EnrollmentBase):
+        try:
+            enrollment_student = await session.execute(
+                select(Enrollment).
+                where(Enrollment.id_subject == enrollment.id_subject
+                      and Enrollment.id_student == enrollment.id_student)
+            )
+            enrollment_orm = enrollment_student.scalars().one_or_none()
+            if not enrollment_orm:
+                return None
+            return EnrollmentResponse.model_validate(enrollment_orm)
+        except Exception:
+            raise
         
     @staticmethod
     async def create_subject(session: SessionDep, subject_info: SubjectBase):
@@ -67,6 +84,20 @@ class SubjectService():
             await session.commit()
             await session.refresh(new_subject)
             return SubjectResponse.model_validate(new_subject)
+        except Exception:
+            await session.rollback()
+            raise
+
+    @staticmethod
+    async def enrollment_to_subject(session: SessionDep, enrollment: EnrollmentBase):
+        try:
+            enrollment_student = Enrollment(
+                id_subject=enrollment.id_subject,
+                id_student=enrollment.id_student
+            )
+            session.add(enrollment_student)
+            await session.commit()
+            return EnrollmentResponse.model_validate(enrollment_student)
         except Exception:
             await session.rollback()
             raise
