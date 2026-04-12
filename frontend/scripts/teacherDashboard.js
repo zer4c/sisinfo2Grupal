@@ -4,7 +4,7 @@ import { openModal, closeModal } from "./modal.js";
 import { initShareModal, openShareModal } from "./shareCode.js";
 
 const MODAL_ID = "create-subject-modal";
-const TEACHER_ID = 1;
+const TEACHER_ID = Number(localStorage.getItem('user_id'));;
 
 async function loadClasses() {
   const list = document.getElementById("classes-list");
