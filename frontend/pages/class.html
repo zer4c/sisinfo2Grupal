@@ -18,21 +18,21 @@
 </head>
 <body>
 
-  <nav class="navbar">
-    <a class="navbar-back" href="teacher-dashboard.html">Volver</a>
-    <span class="navbar-title" id="navbar-subject-name"></span>
-    <button class="btn-card-action" id="btn-create-assignment">+ Crear tarea</button>
-  </nav>
+    <nav class="navbar">
+        <a class="btn-card-action text-navbar" href="teacher-dashboard.html"> Volver</a>
+        <button class="btn-card-action" id="btn-create-assignment">Crear tarea</button>
+    </nav>
 
-  <div class="classroom-banner">
-    <h1 id="banner-subject-name"></h1>
-    <span id="banner-subject-code"></span>
-  </div>
-
-  <div class="classroom-content">
-    <div class="assignments-list" id="assignments-list">
-      <p class="empty-msg">No hay tareas aún</p>
+    <div class="classroom-banner">
+        <h1 id="banner-subject-name"></h1>
+        <span>Código de clase: <span id="banner-subject-code"></span></span>
     </div>
-  </div>
+
+    <div class="classroom-content">
+        <div class="assignments-list" id="assignments-list">
+        <p class="empty-msg">No hay tareas aún</p>
+        </div>
+    </div>
+    <script type="module" src="../scripts/class.js"></script>
 </body>
 </html>

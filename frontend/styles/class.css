@@ -1,7 +1,7 @@
 .navbar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: var(--space-4);
   padding: var(--space-4) var(--space-8);
   border-bottom: var(--border-width) solid var(--border);
   position: sticky;
@@ -9,22 +9,9 @@
   background: var(--white);
   z-index: 10;
 }
-
-.navbar-back {
-  color: var(--text-secondary);
-  text-decoration: none;
-  font-size: var(--font-size-body);
+.text-navbar{
+    text-decoration: none;
 }
-
-.navbar-back:hover {
-  color: var(--primary);
-}
-
-.navbar-title {
-  font-weight: 500;
-  color: var(--primary);
-}
-
 .classroom-banner {
   background: var(--primary);
   padding: var(--space-8);
