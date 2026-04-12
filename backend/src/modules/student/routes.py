@@ -11,4 +11,4 @@ router = APIRouter()
     status_code=status.HTTP_200_OK,
 )
 async def read_student(session: SessionDep, id: int):
-    return await StudentController.read_student(session, id)
+    return await StudentController.get_student(session, id)
