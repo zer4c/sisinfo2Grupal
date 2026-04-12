@@ -32,5 +32,5 @@ class Subject(Base):
     max_students: Mapped[int] = mapped_column(Integer, nullable=False)
 
     teacher: Mapped["Teacher"] = relationship(
-        "src.modules.database.teacher.Teacher", back_populates="subject"
+        "src.modules.teacher.model.Teacher", back_populates="subject"
     )
