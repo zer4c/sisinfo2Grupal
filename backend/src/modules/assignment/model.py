@@ -45,3 +45,10 @@ class SubmissionFile(Base):
     submission_id: Mapped[int] = mapped_column(ForeignKey("submission.id"), nullable=False)
     data: Mapped[bytes] = mapped_column(LargeBinary, nullable=False)
     type_file: Mapped[FileTypeEnum] = mapped_column(Enum(FileTypeEnum), nullable=False)
+
+class AssignmentFile(Base):
+    __tablename__ = "assignment_file"
+    id: Mapped[int] = mapped_column(primary_key=True, index=True)
+    assignment_id: Mapped[int] = mapped_column(ForeignKey("assignment.id"), nullable=False)
+    data: Mapped[bytes] = mapped_column(LargeBinary, nullable=False)
+    type_file: Mapped[FileTypeEnum] = mapped_column(Enum(FileTypeEnum), nullable=False)
