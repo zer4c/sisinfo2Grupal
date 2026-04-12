@@ -35,13 +35,6 @@ const validators = {
   description: (value) => {
     if (value && value.length > 500) return "La descripción no puede exceder 500 caracteres";
     return null;
-  },
-  teacher_id: (value) => {
-    if (!value) return "El ID del profesor es requerido";
-    if (!/^\d+$/.test(value)) return "El ID debe ser un número entero";
-    const num = Number(value);
-    if (num < 1) return "El ID debe ser mayor a 0";
-    return null;
   }
 };
 

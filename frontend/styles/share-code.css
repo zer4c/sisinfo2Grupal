@@ -1,0 +1,44 @@
+.btn-share {
+  align-self: flex-end;
+  background: transparent;
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--border-radius);
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--font-size-body);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-share:hover {
+  background: var(--card-bg);
+  border-color: var(--text-secondary);
+}
+
+.share-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-8);
+}
+
+.share-code {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: 6px;
+  color: var(--primary);
+  background: var(--card-bg);
+  padding: var(--space-4) var(--space-8);
+  border-radius: var(--border-radius);
+  border: var(--border-width) solid var(--border);
+}
+
+#share-code-modal .form-card {
+  max-width: 380px;
+}
+
+#share-code-modal .form-actions {
+  justify-content: center;
+  padding-bottom: var(--space-4);
+}
