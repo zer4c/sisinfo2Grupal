@@ -39,18 +39,28 @@ class AssignmentController:
             raise HTTPException(status_code=404, detail="Assignments not found")
         return {"message": "assignments found", "ok": True, "data": assignments}
 
+    @staticmethod
     async def create_file_assignment(
         session: SessionDep, assignment_data: AssignmentFile, data: UploadFile
     ):
         try:
             assignment_file_data = await AssignmentFileCreate(
-            assignment_id=assignment_data.assignment_id,
-            type_file=assignment_data.type_file,
-            data=await FileParser.to_bytes(data),
-        )
+                assignment_id=assignment_data.assignment_id,
+                type_file=assignment_data.type_file,
+                data=await FileParser.to_bytes(data),
+            )
         except Exception:
             raise HTTPException(status_code=500, detail="Error processing file")
         id_file = await AssignmentService.create_file_assignment(
             session, assignment_file_data
         )
         return {"message": "file created", "ok": True, "data": id_file}
+
+    @staticmethod
+    async def get_file_assignment(session: SessionDep, id_file: int):
+        file_assignment = await AssignmentService.get_file_assignment(session, id_file)
+        if not file_assignment:
+            raise HTTPException(status_code=404, detail="File assignment not found")
+        return FileParser.to_response(
+            file_assignment.data, f"assignment_file_{id_file}"
+        )

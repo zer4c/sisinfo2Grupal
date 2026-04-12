@@ -46,3 +46,10 @@ async def create_file_assignment(
     return await AssignmentController.create_file_assignment(
         session , assignment_data, data
     )
+
+@router.get(
+    "/file/{id_file}",
+    status_code=status.HTTP_200_OK,
+)
+async def get_file_assignment(session: SessionDep, id_file: int):
+    return await AssignmentController.get_file_assignment(session, id_file)

@@ -6,7 +6,8 @@ from src.modules.assignment.model import Assignment, AssignmentFile
 from src.modules.assignment.schemas import (
     AssignmentBase,
     AssignmentResponse,
-    ASsignmentFileResponse,
+    AssignmentFileResponse,
+    AssignmentFileCreate
 )
 
 
@@ -84,7 +85,20 @@ class AssignmentService:
             session.add(new_file)
             await session.commit()
             await session.refresh(new_file)
-            return ASsignmentFileResponse.model_validate(new_file)
+            return AssignmentFileResponse.model_validate(new_file)
         except Exception:
             session.rollback()
+            raise
+
+    @staticmethod
+    async def get_file_assignment(session: SessionDep, id_file: int):
+        try:
+            result = await session.execute(
+                select(AssignmentFile).where(AssignmentFile.id == id_file)
+            )
+            file_orm = result.scalars().one_or_none()
+            if not file_orm:
+                return None
+            return AssignmentFileCreate.model_validate(file_orm)
+        except Exception:
             raise
