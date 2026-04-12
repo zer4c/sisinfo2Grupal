@@ -4,7 +4,7 @@ from src.modules.teacher.schemas import TeacherResponse
 from sqlalchemy import select
 
 
-class teacherService:
+class TeacherService:
     @staticmethod
     async def get_teacher_by_id(session: SessionDep, id: int):
         try:
