@@ -120,4 +120,11 @@ function clearErrors() {
   document.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
 }
 initShareModal();
-loadClasses();
+const role = localStorage.getItem('user_role');
+
+if (role === 'docente') {
+  document.getElementById('btn-open-modal').style.display = 'block';
+  loadClasses();
+} else {
+  document.getElementById('btn-open-modal').style.display = 'none';
+}
