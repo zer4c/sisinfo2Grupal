@@ -28,6 +28,13 @@ class SubjectController():
         return {"message": "subjects found", "ok": True, "data": subjects}
     
     @staticmethod
+    async def get_all_subjects_for_student(session: SessionDep, id_subject: int):
+        subjects = await SubjectService.get_subjects_for_student(session, id_subject)
+        if not subjects:
+            raise HTTPException(status_code= 404, detail="Subjects not found")
+        return {"message":"subjects found", "ok": True, "data": subjects}
+    
+    @staticmethod
     async def enrollment_class(session: SessionDep, enrollment: EnrollmentBase):
         enrollment_student = await SubjectService.get_enrollment(session, enrollment)
         if enrollment_student:
