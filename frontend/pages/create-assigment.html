@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crear Tarea</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles/base.css" />
+  <link rel="stylesheet" href="../styles/forms.css" />
+  <link rel="stylesheet" href="../styles/toast.css" />
+  <link rel="stylesheet" href="../styles/create-assigment.css" />
+  <script src="../scripts/toast.js"></script>
+</head>
+<body>
+
+  <nav class="navbar">
+    <button class="btn-back" id="btn-back">✕</button>
+    <span class="navbar-title">Crear Tarea</span>
+    <button class="btn-primary" id="btn-submit">Crear</button>
+  </nav>
+
+  <div class="assignment-container">
+    <div class="assignment-form-section">
+      <div class="form-group">
+        <label for="title">Título</label>
+        <input type="text" id="title" placeholder="Título de la tarea" />
+      </div>
+      <div class="form-group">
+        <label for="description">Descripción (Opcional)</label>
+        <textarea id="description" placeholder="Instrucciones o descripción de la tarea..."></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="due_date">Fecha de entrega</label>
+          <input type="date" id="due_date" />
+        </div>
+        <div class="form-group">
+          <label for="points">Puntos</label>
+          <input type="number" id="points" placeholder="100" min="1" />
+        </div>
+      </div>
+    </div>
+
+    <div class="assignment-files-section">
+      <div class="file-upload-area" id="file-upload-area">
+        <span class="file-upload-icon">📎</span>
+        <p>Arrastra un archivo aquí</p>
+        <span>o</span>
+        <label class="btn-secondary file-label" for="file-input">Seleccionar archivo</label>
+        <input type="file" id="file-input" accept=".pdf,.docx,.xlsx,.zip,.jpg,.png" hidden />
+        <p class="file-types">PDF, DOCX, XLSX, ZIP, JPG, PNG</p>
+      </div>
+      <div class="file-list" id="file-list"></div>
+    </div>
+  </div>
+
+  <script type="module" src="../scripts/create-assignment.js"></script>
+</body>
+</html>
