@@ -35,21 +35,27 @@ async def read_assignment(session: SessionDep, assignment_id: int):
 
 
 @router.post(
-    "/file",
+    "/{id_assignment}/file",
     status_code=status.HTTP_200_OK,
 )
 async def create_file_assignment(
-    assignment_data : Annotated[AssignmentFile, Form()],
-    session : SessionDep,
+    assignment_data: Annotated[AssignmentFile, Form()],
+    session: SessionDep,
     data: UploadFile = File(...),
 ):
     return await AssignmentController.create_file_assignment(
-        session , assignment_data, data
+        session, assignment_data, data
     )
 
+
 @router.get(
-    "/file/{id_file}",
+    "/{id_assignment}/file/{id_file}",
     status_code=status.HTTP_200_OK,
 )
 async def get_file_assignment(session: SessionDep, id_file: int):
     return await AssignmentController.get_file_assignment(session, id_file)
+
+
+@router.get("/{id_assignment}/file/", status_code=status.HTTP_200_OK)
+async def get_all_file_by_assignment(session: SessionDep, id_assignment: int):
+    return await AssignmentController.get_all_file_by_assignment(session, id_assignment)

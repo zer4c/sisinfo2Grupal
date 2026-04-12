@@ -64,3 +64,10 @@ class AssignmentController:
         return FileParser.to_response(
             file_assignment.data, f"assignment_file_{id_file}"
         )
+
+    @staticmethod
+    async def get_all_file_by_assignment(session: SessionDep, id_assignment: int):
+        files_assignment = await AssignmentService.get_all_file_by_assignment(
+            session, id_assignment
+        )
+        return {"message": "files found", "ok": True, "data": files_assignment}

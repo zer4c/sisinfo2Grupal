@@ -102,3 +102,16 @@ class AssignmentService:
             return AssignmentFileCreate.model_validate(file_orm)
         except Exception:
             raise
+
+    @staticmethod
+    async def get_all_file_by_assignment(session: SessionDep, id_assignment: int):
+        try:
+            result = await session.execute(
+                select(AssignmentFile).where(
+                    AssignmentFile.assignment_id == id_assignment
+                )
+            )
+            files_orm = result.scalars().all()
+            return [AssignmentFileResponse.model_validate(f) for f in files_orm]
+        except Exception:
+            raise
