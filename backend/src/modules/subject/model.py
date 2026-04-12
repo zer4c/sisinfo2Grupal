@@ -11,22 +11,22 @@ from datetime import date
 
 
 class Enrollment(Base):
-    __tablename__ = "enrollments"
+    __tablename__ = "enrollment"
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
-    id_subject: Mapped[int] = mapped_column(ForeignKey("subjects.id"), nullable=False)
-    id_student: Mapped[int] = mapped_column(ForeignKey("students.id"), nullable=False)
+    id_subject: Mapped[int] = mapped_column(ForeignKey("subject.id"), nullable=False)
+    id_student: Mapped[int] = mapped_column(ForeignKey("student.id"), nullable=False)
 
 
 class Subject(Base):
-    __tablename__ = "subjects"
+    __tablename__ = "subject"
 
     __table_args__ = (UniqueConstraint("code", "period", "teacher_id"),)
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
     code: Mapped[str] = mapped_column(String, index=True)
     period: Mapped[date] = mapped_column(Date, index=True)
-    teacher_id: Mapped[int] = mapped_column(ForeignKey("teachers.id"), index=True)
+    teacher_id: Mapped[int] = mapped_column(ForeignKey("teacher.id"), index=True)
     name: Mapped[str] = mapped_column(String, nullable=False)
     description: Mapped[str] = mapped_column(String, nullable=True)
     max_students: Mapped[int] = mapped_column(Integer, nullable=False)

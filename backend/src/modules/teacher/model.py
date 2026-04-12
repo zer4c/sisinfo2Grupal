@@ -5,7 +5,7 @@ from typing import List
 
 
 class Teacher(Base):
-    __tablename__ = "teachers"
+    __tablename__ = "teacher"
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
     name: Mapped[str] = mapped_column(String, nullable=False)
 
