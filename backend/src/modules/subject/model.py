@@ -15,7 +15,8 @@ class Enrollment(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
     id_subject: Mapped[int] = mapped_column(ForeignKey("subjects.id"), nullable=False)
-    student_id: Mapped[int] = mapped_column(ForeignKey("students.id"), nullable=False)
+    id_student: Mapped[int] = mapped_column(ForeignKey("students.id"), nullable=False)
+    subject: Mapped["Subject"] = relationship("Subject")
 
 
 class Subject(Base):
