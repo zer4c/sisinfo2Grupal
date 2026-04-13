@@ -1,5 +1,7 @@
 import { getAssignmentFiles, getAssignmentFile } from './api/assignmentApi.js';
 import { getAssignmentState, createStateBadge } from './assignmentState.js';
+import { getSubmissionsByAssignment } from './api/submissionApi.js';
+import { getStudentById } from './api/studentApi.js';
 
 const assignmentId = localStorage.getItem('assignment_id');
 const subjectName = localStorage.getItem('subject_name');
@@ -37,6 +39,7 @@ if (!assignmentData) {
     document.querySelector('.btn-card-action').href = 'class.html';
 
     loadFiles();
+    loadSubmissions();
     
     if (role === 'estudiante' && userId) {
         loadAssignmentState();
@@ -119,6 +122,69 @@ function createFileItem(file, index) {
 
     item.appendChild(fileName);
     item.appendChild(downloadBtn);
+
+    return item;
+}
+
+async function loadSubmissions() {
+    try {
+        const response = await getSubmissionsByAssignment(assignmentId);
+        const submissions = response.data || [];
+        const submissionsList = document.getElementById('submissions-list');
+
+        if (!submissions || submissions.length === 0) {
+            submissionsList.innerHTML = '<p class="no-submissions">No hay entregas</p>';
+            return;
+        }
+
+        submissionsList.innerHTML = '';
+        
+        for (const submission of submissions) {
+            try {
+                const studentResponse = await getStudentById(submission.student_id);
+                submission.student = studentResponse.data;
+            } catch (err) {
+                console.error(`Error getting student ${submission.student_id}:`, err);
+                submission.student = null;
+            }
+            
+            const item = createSubmissionItem(submission);
+            submissionsList.appendChild(item);
+        }
+    } catch (error) {
+        console.error('Error loading submissions:', error);
+        let errorMessage = 'Error al cargar entregas';
+        if (error.status === 404) {
+            errorMessage = 'No hay entregas';
+        }
+        document.getElementById('submissions-list').innerHTML = `<p class="no-submissions">${errorMessage}</p>`;
+    }
+}
+
+function createSubmissionItem(submission) {
+    const item = document.createElement('div');
+    item.className = 'submission-item';
+
+    const studentName = document.createElement('div');
+    studentName.className = 'submission-student-name';
+    const name = submission.student && submission.student.name 
+        ? submission.student.name 
+        : `Estudiante #${submission.student_id}`;
+    studentName.textContent = name;
+
+    const meta = document.createElement('div');
+    meta.className = 'submission-meta';
+
+    meta.innerHTML = `<span>Estado: ${submission.state_id === 2 ? 'Entregado' : 'Pendiente'}</span>`;
+    
+    if (submission.grade !== null && submission.grade !== undefined) {
+        const gradeSpan = document.createElement('span');
+        gradeSpan.textContent = `Calificación: ${submission.grade}`;
+        meta.appendChild(gradeSpan);
+    }
+
+    item.appendChild(studentName);
+    item.appendChild(meta);
 
     return item;
 }
