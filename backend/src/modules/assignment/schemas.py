@@ -17,11 +17,11 @@ class AssignmentResponse(AssignmentBase):
 
 
 class AssignmentFile(BaseModel):
-    id : int
     assignment_id : int
     type_file : FileTypeEnum
 
 class AssignmentFileCreate(AssignmentFile):
+    id : int
     data : bytes
 
 class AssignmentFileResponse(AssignmentFile):
