@@ -1,10 +1,11 @@
 from sqlalchemy import select
 from src.core.database import SessionDep
 
-from src.modules.submission.model import SubmissionFile
+from src.modules.submission.model import SubmissionFile, Submission
 from src.modules.submission.schemas import (
     SubmissionFileResponse,
-    SubmissionFileCreate
+    SubmissionFileCreate,
+    SubmissionResponse
 )
 
 
@@ -48,5 +49,18 @@ class SubmissionService:
             )
             files_orm = result.scalars().all()
             return [SubmissionFileResponse.model_validate(f) for f in files_orm]
+        except Exception:
+            raise
+    
+    @staticmethod
+    async def get_submissions_done(session: SessionDep, assignment_id: int):
+        try:
+            result = await session.execute(
+                select(Submission).
+                where(Submission.assignment_id == assignment_id 
+                      and Submission.state_id == 1)
+            )
+            done_orm = result.scalars().all()
+            return [SubmissionResponse.model_validate(s) for s in done_orm]
         except Exception:
             raise

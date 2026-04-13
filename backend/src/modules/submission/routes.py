@@ -9,6 +9,12 @@ from src.modules.submission.controllers import SubmissionController
 
 router = APIRouter()
 
+@router.get(
+    "/{id_submission}/file/", 
+    status_code=status.HTTP_200_OK)
+async def get_all_file_by_submission(session: SessionDep, id_submission: int):
+    return await SubmissionController.get_all_file_by_submission(session, id_submission)
+
 
 @router.post(
     "/{id_submission}/file",
@@ -32,6 +38,9 @@ async def get_file_submission(session: SessionDep, id_file: int):
     return await SubmissionController.get_file_submission(session, id_file)
 
 
-@router.get("/{id_submission}/file/", status_code=status.HTTP_200_OK)
-async def get_all_file_by_submission(session: SessionDep, id_submission: int):
-    return await SubmissionController.get_all_file_by_submission(session, id_submission)
+@router.get(
+        "/{assignment_id}",
+        status_code=status.HTTP_200_OK,
+)
+async def get_submissions_done(session: SessionDep, assignment_id: int):
+    return await SubmissionController.get_submissions_done(session, assignment_id)
