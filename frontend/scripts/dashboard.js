@@ -125,8 +125,9 @@ const role = localStorage.getItem('user_role');
 
 if (role === 'docente') {
   document.getElementById('btn-open-modal').style.display = 'block';
-  loadTeacherClasses();
+  loadClasses();
 } else {
+  document.getElementById('btn-open-modal').style.display = 'none';
   document.getElementById('btn-join-class').style.display = 'block';
   initJoinClass();
 }
