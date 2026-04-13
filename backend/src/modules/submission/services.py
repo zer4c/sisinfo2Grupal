@@ -1,14 +1,48 @@
+from datetime import date
 from sqlalchemy import select
 from src.core.database import SessionDep
 
-from src.modules.submission.model import SubmissionFile
+from src.modules.submission.model import Submission, SubmissionFile
+from src.modules.assignment.model import Assignment
 from src.modules.submission.schemas import (
+    SubmissionResponse,
+    SubmissionBase,
     SubmissionFileResponse,
     SubmissionFileCreate
 )
 
 
 class SubmissionService:
+    @staticmethod
+    async def create_submission(session: SessionDep, submission_info: SubmissionBase):
+        try:
+            new_submission = Submission(
+                student_id=submission_info.student_id,
+                assignment_id=submission_info.assignment_id,
+                state_id=submission_info.state_id,
+                grade=submission_info.grade
+            )
+            session.add(new_submission)
+            await session.commit()
+            await session.refresh(new_submission)
+            return SubmissionResponse.model_validate(new_submission)
+        except Exception:
+            session.rollback()
+            raise
+
+    @staticmethod
+    async def get_submission_by_id(session: SessionDep, submission_id: int):
+        try:
+            result = await session.execute(
+                select(Submission).where(Submission.id == submission_id)
+            )
+            submission_orm = result.scalars().one_or_none()
+            if not submission_orm:
+                return None
+            return SubmissionResponse.model_validate(submission_orm)
+        except Exception:
+            raise
+
     @staticmethod
     async def create_file_submission(session: SessionDep, submission_file_data):
         try:

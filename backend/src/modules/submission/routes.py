@@ -4,11 +4,17 @@ from fastapi import APIRouter, status, File, UploadFile, Form
 from typing import Annotated
 
 from src.core.database import SessionDep
-from src.modules.submission.schemas import SubmissionFile
+from src.modules.submission.schemas import SubmissionBase, SubmissionFile
 from src.modules.submission.controllers import SubmissionController
 
 router = APIRouter()
 
+@router.post(
+    "/",
+    status_code=status.HTTP_201_CREATED,
+)
+async def create_submission(session: SessionDep, submission_info: SubmissionBase):
+    return await SubmissionController.create_submission(session, submission_info)
 
 @router.post(
     "/{id_submission}/file",
