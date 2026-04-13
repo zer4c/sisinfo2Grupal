@@ -21,7 +21,7 @@ class Enrollment(Base):
 class Subject(Base):
     __tablename__ = "subject"
 
-    __table_args__ = (UniqueConstraint("code", "period", "teacher_id"),)
+    __table_args__ = (UniqueConstraint("period", "teacher_id"),)
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
     code: Mapped[str] = mapped_column(String, index=True)
