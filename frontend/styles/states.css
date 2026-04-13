@@ -9,21 +9,21 @@
 }
 
 .state-nuevo {
-    background-color: #0d4166;
+    background-color: #5DADE2;
     color: #ffffff;
     border: 1px solid #90caf9;
 }
 
 .state-entregado {
-    background-color: #b97e20;
+    background-color: #5FB896;
     color: #ffffff;
-    border: 1px solid #ddb77e;
+    border: 1px solid #95ceb8;
 }
 
 .state-revisado {
-    background-color: #146d1b;
+    background-color: #9B8FC4;
     color: #ffffff;
-    border: 1px solid #81c784;
+    border: 1px solid #cfc9e4;
 }
 
 .assignment-card-header {
