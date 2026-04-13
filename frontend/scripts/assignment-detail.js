@@ -39,8 +39,10 @@ if (!assignmentData) {
     document.querySelector('.btn-card-action').href = 'class.html';
 
     loadFiles();
-    loadSubmissions();
-    
+    if (role === 'docente') {
+        document.getElementById('submissions-sidebar').style.display = 'block';
+        loadSubmissions()
+    }
     if (role === 'estudiante' && userId) {
         loadAssignmentState();
     }
