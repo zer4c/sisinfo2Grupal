@@ -64,3 +64,10 @@ class SubmissionController:
             session, id_submission
         )
         return {"message": "files found", "ok": True, "data": files_submission}
+    
+    @staticmethod
+    async def get_submissions_done(session: SessionDep, assignment_id: int):
+        submissions_done = await SubmissionService.get_submissions_done(session, assignment_id)
+        if not submissions_done:
+            raise HTTPException(status_code=404, detail="Submissions done not found")
+        return {"message": "submissions found", "ok":True, "data":submissions_done}

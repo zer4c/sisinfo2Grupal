@@ -15,6 +15,14 @@ router = APIRouter()
 )
 async def create_submission(session: SessionDep, submission_info: SubmissionBase):
     return await SubmissionController.create_submission(session, submission_info)
+ 
+
+@router.get(
+        "/{assignment_id}",
+        status_code=status.HTTP_200_OK,
+)
+async def get_submissions_done(session: SessionDep, assignment_id: int):
+    return await SubmissionController.get_submissions_done(session, assignment_id)
 
 @router.post(
     "/{id_submission}/file",
@@ -37,7 +45,8 @@ async def create_file_submission(
 async def get_file_submission(session: SessionDep, id_file: int):
     return await SubmissionController.get_file_submission(session, id_file)
 
-
-@router.get("/{id_submission}/file/", status_code=status.HTTP_200_OK)
+@router.get(
+    "/{id_submission}/file/", 
+    status_code=status.HTTP_200_OK)
 async def get_all_file_by_submission(session: SessionDep, id_submission: int):
     return await SubmissionController.get_all_file_by_submission(session, id_submission)

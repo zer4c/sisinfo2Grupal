@@ -8,7 +8,8 @@ from src.modules.submission.schemas import (
     SubmissionResponse,
     SubmissionBase,
     SubmissionFileResponse,
-    SubmissionFileCreate
+    SubmissionFileCreate,
+    SubmissionResponse
 )
 
 
@@ -44,7 +45,7 @@ class SubmissionService:
             raise
 
     @staticmethod
-    async def create_file_submission(session: SessionDep, submission_file_data):
+    async def create_file_submission(session: SessionDep, submission_file_data: SubmissionFile):
         try:
             new_file = SubmissionFile(
                 submission_id=submission_file_data.submission_id,
@@ -82,5 +83,18 @@ class SubmissionService:
             )
             files_orm = result.scalars().all()
             return [SubmissionFileResponse.model_validate(f) for f in files_orm]
+        except Exception:
+            raise
+    
+    @staticmethod
+    async def get_submissions_done(session: SessionDep, assignment_id: int):
+        try:
+            result = await session.execute(
+                select(Submission).
+                where(Submission.assignment_id == assignment_id 
+                      and Submission.state_id == 2)
+            )
+            done_orm = result.scalars().all()
+            return [SubmissionResponse.model_validate(s) for s in done_orm]
         except Exception:
             raise
