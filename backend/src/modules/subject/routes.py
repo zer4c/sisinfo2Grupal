@@ -6,12 +6,14 @@ from src.modules.subject.controllers import SubjectController
 
 router = APIRouter()
 
+
 @router.post(
     "/",
     status_code=status.HTTP_201_CREATED,
 )
 async def create_subject(session: SessionDep, subject_info: SubjectBase):
     return await SubjectController.create_subject(session, subject_info)
+
 
 @router.get(
     "/teacher",
@@ -20,12 +22,14 @@ async def create_subject(session: SessionDep, subject_info: SubjectBase):
 async def get_all_subjects_for_teacher(session: SessionDep, teacher_id: int):
     return await SubjectController.get_all_subjects_for_teacher(session, teacher_id)
 
+
 @router.get(
-        "/student",
-        status_code=status.HTTP_200_OK,
+    "/student",
+    status_code=status.HTTP_200_OK,
 )
 async def get_all_subjects_for_student(session: SessionDep, id_student: int):
     return await SubjectController.get_all_subjects_for_student(session, id_student)
+
 
 @router.post(
     "/enrollment",
@@ -33,6 +37,7 @@ async def get_all_subjects_for_student(session: SessionDep, id_student: int):
 )
 async def enrollment_class(session: SessionDep, enrollment: EnrollmentBase):
     return await SubjectController.enrollment_class(session, enrollment)
+
 
 @router.get(
     "/{id}",
