@@ -1,13 +1,9 @@
 from typing import Annotated
 
 from fastapi import APIRouter, File, Form, UploadFile, status
-from pydantic import Json
 from src.core.database import SessionDep
 from src.core.enum import FileTypeEnum
 from src.modules.comments.controllers import CommentController
-from src.modules.comments.schemas import (
-    SubmissionCommentCreate,
-)
 
 router = APIRouter()
 
@@ -19,13 +15,12 @@ router = APIRouter()
 async def create_comment(
     session: SessionDep,
     id_submission: int,
-    comment_data: Annotated[Json[SubmissionCommentCreate], Form()],
+    comment_text: str = Form(...),
 ):
     return await CommentController.create_comment(
         session,
         id_submission,
-        comment_data.teacher_id,
-        comment_data.comment,
+        comment_text,
     )
 
 
@@ -55,10 +50,10 @@ async def update_comment(
     session: SessionDep,
     id_submission: int,
     id_comment: int,
-    comment_data: Annotated[Json, Form()],
+    comment_text: str = Form(...),
 ):
     return await CommentController.update_comment(
-        session, id_submission, id_comment, comment_data.get("comment")
+        session, id_submission, id_comment, comment_text
     )
 
 

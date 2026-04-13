@@ -1,7 +1,7 @@
-from datetime import datetime
+from datetime import date
 
 from sqlalchemy import (
-    DateTime,
+    Date,
     Enum,
     ForeignKey,
     LargeBinary,
@@ -18,12 +18,8 @@ class SubmissionComment(Base):
     submission_id: Mapped[int] = mapped_column(
         ForeignKey("submission.id"), nullable=False
     )
-    teacher_id: Mapped[int] = mapped_column(
-        ForeignKey("teacher.id"), nullable=False
-    )
-    comment: Mapped[str] = mapped_column(String(2000), nullable=False)
-    created_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
-    updated_at: Mapped[datetime] = mapped_column(DateTime, nullable=True)
+    comment: Mapped[str] = mapped_column(String, nullable=True)
+    created_at: Mapped[date] = mapped_column(Date, nullable=False)
 
 
 class CommentFile(Base):
@@ -46,4 +42,3 @@ class Notification(Base):
         ForeignKey("submission_comment.id"), nullable=False
     )
     student_id: Mapped[int] = mapped_column(ForeignKey("student.id"), nullable=False)
-    is_read: Mapped[bool] = mapped_column(default=False, nullable=False)

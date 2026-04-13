@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import date, timedelta
 from fastapi import HTTPException, UploadFile
 from src.core.database import SessionDep
 from src.core.files_database import FileParser
@@ -15,7 +15,6 @@ class CommentController:
     async def create_comment(
         session: SessionDep,
         submission_id: int,
-        teacher_id: int,
         comment_text: str,
     ):
         submission = await CommentService.get_submission_by_id(
@@ -25,7 +24,7 @@ class CommentController:
             raise HTTPException(status_code=404, detail="Submission not found")
 
         comment_data = SubmissionCommentCreate(
-            comment=comment_text, teacher_id=teacher_id
+            comment=comment_text,
         )
         comment = await CommentService.create_comment(
             session, submission_id, comment_data
@@ -90,9 +89,9 @@ class CommentController:
         if not comment or comment.submission_id != submission_id:
             raise HTTPException(status_code=404, detail="Comment not found")
 
-        now = datetime.now()
+        now = date.today()
         elapsed_time = now - comment.created_at
-        if elapsed_time > timedelta(hours=48):
+        if elapsed_time > timedelta(days=2):
             raise HTTPException(
                 status_code=403,
                 detail="Cannot edit comment after 48 hours",
@@ -121,9 +120,9 @@ class CommentController:
         if not comment or comment.submission_id != submission_id:
             raise HTTPException(status_code=404, detail="Comment not found")
 
-        now = datetime.now()
+        now = date.today()
         elapsed_time = now - comment.created_at
-        if elapsed_time > timedelta(hours=48):
+        if elapsed_time > timedelta(days=2):
             raise HTTPException(
                 status_code=403,
                 detail="Cannot delete comment after 48 hours",
@@ -154,9 +153,9 @@ class CommentController:
         if not comment or comment.submission_id != submission_id:
             raise HTTPException(status_code=404, detail="Comment not found")
 
-        now = datetime.now()
+        now = date.today()
         elapsed_time = now - comment.created_at
-        if elapsed_time > timedelta(hours=48):
+        if elapsed_time > timedelta(days=2):
             raise HTTPException(
                 status_code=403,
                 detail="Cannot add files to comment after 48 hours",

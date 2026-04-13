@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 from sqlalchemy import select
 from src.core.database import SessionDep
 from src.modules.comments.model import SubmissionComment, CommentFile, Notification
@@ -35,10 +35,8 @@ class CommentService:
         try:
             new_comment = SubmissionComment(
                 submission_id=submission_id,
-                teacher_id=comment_data.teacher_id,
                 comment=comment_data.comment,
-                created_at=datetime.now(),
-                updated_at=None,
+                created_at=date.today(),
             )
             session.add(new_comment)
             await session.commit()
@@ -74,7 +72,6 @@ class CommentService:
                 return None
             
             comment_orm.comment = comment_data.comment
-            comment_orm.updated_at = datetime.now()
             
             await session.commit()
             await session.refresh(comment_orm)
@@ -184,7 +181,6 @@ class CommentService:
                 submission_id=submission_id,
                 comment_id=comment_id,
                 student_id=student_id,
-                is_read=False,
             )
             session.add(new_notification)
             await session.commit()

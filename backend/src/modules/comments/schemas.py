@@ -1,7 +1,7 @@
-from datetime import datetime
+from datetime import date
 from typing import List, Optional
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict
 from src.core.enum import FileTypeEnum
 
 
@@ -11,25 +11,20 @@ class CommentFileResponse(BaseModel):
     type_file: FileTypeEnum
 
 
-class SubmissionCommentBase(BaseModel):
-    comment: str = Field(..., min_length=1, max_length=2000)
-    teacher_id: int
-
-
-class SubmissionCommentCreate(SubmissionCommentBase):
-    pass
+class SubmissionCommentCreate(BaseModel):
+    comment: Optional[str] = None
 
 
 class SubmissionCommentUpdate(BaseModel):
-    comment: str = Field(..., min_length=1, max_length=2000)
+    comment: Optional[str] = None
 
 
-class SubmissionCommentResponse(SubmissionCommentBase):
+class SubmissionCommentResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
     id: int
     submission_id: int
-    created_at: datetime
-    updated_at: Optional[datetime] = None
+    comment: Optional[str] = None
+    created_at: date
     files: List[CommentFileResponse] = []
 
 
@@ -39,4 +34,3 @@ class NotificationResponse(BaseModel):
     submission_id: int
     comment_id: int
     student_id: int
-    is_read: bool
