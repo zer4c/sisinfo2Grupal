@@ -1,0 +1,50 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-8);
+  border-bottom: var(--border-width) solid var(--border);
+  position: sticky;
+  top: 0;
+  background: var(--white);
+  z-index: 10;
+}
+.text-navbar{
+    text-decoration: none;
+}
+.classroom-banner {
+  background: var(--primary);
+  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-height: 160px;
+  justify-content: flex-end;
+}
+
+.classroom-banner h1 {
+  color: var(--white);
+}
+
+.classroom-banner span {
+  color: var(--card-bg);
+  font-size: var(--font-size-body);
+}
+
+.classroom-content {
+  max-width: 720px;
+  margin: var(--space-8) auto;
+  padding: 0 var(--space-4);
+}
+
+.assignments-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.empty-msg {
+  color: var(--text-secondary);
+  text-align: center;
+  padding: var(--space-8) 0;
+}

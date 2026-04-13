@@ -36,11 +36,7 @@ document.getElementById('btn-confirm').addEventListener('click', async () => {
         localStorage.setItem('user_id', Number(id));
         localStorage.setItem('user_role', selectedRole);
 
-        if (selectedRole === 'docente') {
-            window.location.href = 'pages/teacher-dashboard.html';
-        } else {
-            window.location.href = 'pages/student-dashboard.html';
-        }
+        window.location.href = 'pages/dashboard.html';
 
     } catch (err) {
         showToast('error', 'Error al conectar con el servidor');

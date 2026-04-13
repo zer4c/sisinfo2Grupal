@@ -76,19 +76,3 @@
   display: flex;
   justify-content: flex-end;
 }
-
-.btn-continuar {
-  padding: var(--space-3) var(--space-6);
-  background: var(--card-bg);
-  color: var(--primary);
-  border: none;
-  border-radius: var(--border-radius);
-  font-family: inherit;
-  font-weight: 500;
-  cursor: pointer;
-}
-
-.btn-continuar:hover {
-  background: var(--primary);
-  color: var(--white);
-}

@@ -45,3 +45,20 @@
   font-size: var(--font-size-body);
   color: var(--text-secondary);
 }
+
+.btn-card-action {
+  align-self: flex-end;
+  background: transparent;
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--border-radius);
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--font-size-body);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-card-action:hover {
+  background: var(--card-bg);
+  border-color: var(--text-secondary);
+}
