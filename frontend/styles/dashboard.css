@@ -3,7 +3,6 @@
   flex-direction: column;
   align-items: center;
   padding: var(--space-8);
-  padding-top: 180px;
   gap: var(--space-6);
 }
 
@@ -22,4 +21,18 @@
   height: 380px;
   overflow-y: scroll;
   box-sizing: border-box;
+}
+
+.dashboard-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  padding: var(--space-8);
+  margin-top: var(--space-8);
+}
+
+.dashboard-nav-title {
+  font-weight: 500;
+  color: var(--primary);
 }
