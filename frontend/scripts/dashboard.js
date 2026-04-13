@@ -1,19 +1,22 @@
 import { initJoinClass } from "./joinClass.js";
-import { createSubject, getSubjectsByTeacher } from "./api/subjectApi.js";
+import { createSubject, getSubjectsByTeacher, getSubjectsByStudent } from "./api/subjectApi.js";
 import { validateForm } from "./formValidator.js";
 import { openModal, closeModal } from "./modal.js";
 import { initShareModal, openShareModal } from "./shareCode.js";
 
 const MODAL_ID = "create-subject-modal";
-const TEACHER_ID = Number(localStorage.getItem('user_id'));;
+const USER_ID = Number(localStorage.getItem('user_id'));
+const USER_ROLE = localStorage.getItem('user_role');
 
-async function loadClasses() {
+async function renderClassCards(subjects, isTeacher = true) {
   const list = document.getElementById("classes-list");
-  try {
-    const res = await getSubjectsByTeacher(TEACHER_ID);
-    const subjects = res.data;
 
-    list.innerHTML = subjects.map(s => `
+  list.innerHTML = subjects.map(s => {
+    const shareButton = isTeacher
+      ? `<button class="btn-card-action btn-share" data-code="${s.code}">Compartir código</button>`
+      : '';
+
+    return `
       <div class="subject-card">
         <div class="subject-card-header">
           <h2>${s.name}</h2>
@@ -23,25 +26,41 @@ async function loadClasses() {
             <span class="subject-card-period">${s.period}</span>
             <span class="subject-card-students">#${s.max_students} estudiantes</span>
           </div>
-            <span class="subject-card-description">${s.description || 'Sin descripción'}</span>
-            <button class="btn-card-action btn-share" data-code="${s.code}">Compartir código</button>
-            <button class="btn-card-action btn-view" data-id="${s.id}" data-name="${s.name}" data-code="${s.code}">Ver clase</button>
-          </div>
+          <span class="subject-card-description">${s.description || 'Sin descripción'}</span>
+          ${shareButton}
+          <button class="btn-card-action btn-view" data-id="${s.id}" data-name="${s.name}" data-code="${s.code}">Ver clase</button>
+        </div>
       </div>
-    `).join('');
+    `;
+  }).join('');
 
-    document.querySelectorAll('.btn-share').forEach(btn => {
-      btn.addEventListener('click', () => openShareModal(btn.dataset.code));
-    });
 
-    document.querySelectorAll('.btn-view').forEach(btn => {
-      btn.addEventListener('click', () => {
-        localStorage.setItem('subject_id', btn.dataset.id);
-        localStorage.setItem('subject_name', btn.dataset.name);
-        localStorage.setItem('subject_code', btn.dataset.code);
-        window.location.href = 'class.html';
-      });
+  document.querySelectorAll('.btn-share').forEach(btn => {
+    btn.addEventListener('click', () => openShareModal(btn.dataset.code));
+  });
+
+  document.querySelectorAll('.btn-view').forEach(btn => {
+    btn.addEventListener('click', () => {
+      localStorage.setItem('subject_id', btn.dataset.id);
+      localStorage.setItem('subject_name', btn.dataset.name);
+      localStorage.setItem('subject_code', btn.dataset.code);
+      window.location.href = 'class.html';
     });
+  });
+}
+
+async function loadClasses() {
+  const list = document.getElementById("classes-list");
+  try {
+    let res;
+    if (USER_ROLE === 'docente') {
+      res = await getSubjectsByTeacher(USER_ID);
+    } else {
+      res = await getSubjectsByStudent(USER_ID);
+    }
+
+    const subjects = res.data;
+    await renderClassCards(subjects, USER_ROLE === 'docente');
   } catch (err) {
     list.innerHTML = `<p style="color: var(--text-secondary);">No se pudieron cargar las clases</p>`;
   }
@@ -120,14 +139,16 @@ function clearErrors() {
   document.querySelectorAll('.field-error').forEach(el => el.remove());
   document.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
 }
-initShareModal();
-const role = localStorage.getItem('user_role');
 
-if (role === 'docente') {
+initShareModal();
+
+
+if (USER_ROLE === 'docente') {
   document.getElementById('btn-open-modal').style.display = 'block';
   loadClasses();
 } else {
   document.getElementById('btn-open-modal').style.display = 'none';
   document.getElementById('btn-join-class').style.display = 'block';
+  loadClasses();
   initJoinClass();
 }
