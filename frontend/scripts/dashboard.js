@@ -1,3 +1,4 @@
+import { initJoinClass } from "./joinClass.js";
 import { createSubject, getSubjectsByTeacher } from "./api/subjectApi.js";
 import { validateForm } from "./formValidator.js";
 import { openModal, closeModal } from "./modal.js";
@@ -124,7 +125,8 @@ const role = localStorage.getItem('user_role');
 
 if (role === 'docente') {
   document.getElementById('btn-open-modal').style.display = 'block';
-  loadClasses();
+  loadTeacherClasses();
 } else {
-  document.getElementById('btn-open-modal').style.display = 'none';
+  document.getElementById('btn-join-class').style.display = 'block';
+  initJoinClass();
 }
