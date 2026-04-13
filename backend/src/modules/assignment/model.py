@@ -5,23 +5,11 @@ from sqlalchemy import (
     Date,
     ForeignKey,
     Integer,
-    UniqueConstraint,
     LargeBinary,
     Enum,
 )
 from sqlalchemy.orm import Mapped, mapped_column
 from datetime import date
-
-class Submission(Base):
-    __tablename__ = "submission"
-
-    __table_args__ = (UniqueConstraint("student_id", "assignment_id"),)
-
-    id: Mapped[int] = mapped_column(primary_key=True, index=True)
-    student_id: Mapped[int] = mapped_column(ForeignKey("student.id"), nullable=False)
-    assignment_id: Mapped[int] = mapped_column(ForeignKey("assignment.id"), nullable=False)
-    state_id: Mapped[int] = mapped_column(ForeignKey("type_state.id"), nullable=False)
-    grade: Mapped[int] = mapped_column(Integer, nullable=True)
 
 class Assignment(Base):
     __tablename__ = "assignment"
@@ -34,14 +22,10 @@ class Assignment(Base):
     due_date: Mapped[date] = mapped_column(Date, nullable=False)
     points: Mapped[int] = mapped_column(Integer, nullable=False)
 
-class TypeState(Base):
-    __tablename__ = "type_state"
-    id: Mapped[int] = mapped_column(primary_key=True, index=True)
-    state: Mapped[str] = mapped_column(String, nullable=False)
 
-class SubmissionFile(Base):
-    __tablename__ = "submission_file"
+class AssignmentFile(Base):
+    __tablename__ = "assignment_file"
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
-    submission_id: Mapped[int] = mapped_column(ForeignKey("submission.id"), nullable=False)
+    assignment_id: Mapped[int] = mapped_column(ForeignKey("assignment.id"), nullable=False)
     data: Mapped[bytes] = mapped_column(LargeBinary, nullable=False)
     type_file: Mapped[FileTypeEnum] = mapped_column(Enum(FileTypeEnum), nullable=False)
