@@ -16,17 +16,6 @@ class SubmissionService:
     @staticmethod
     async def create_submission(session: SessionDep, submission_info: SubmissionBase):
         try:
-            assignment_result = await session.execute(
-                select(Assignment).where(Assignment.id == submission_info.assignment_id)
-            )
-            assignment_orm = assignment_result.scalars().one_or_none()
-
-            if not assignment_orm:
-                return "assignment not found"
-
-            if date.today() > assignment_orm.due_date:
-                return "deadline passed"
-
             new_submission = Submission(
                 student_id=submission_info.student_id,
                 assignment_id=submission_info.assignment_id,
@@ -42,23 +31,21 @@ class SubmissionService:
             raise
 
     @staticmethod
+    async def get_submission_by_id(session: SessionDep, submission_id: int):
+        try:
+            result = await session.execute(
+                select(Submission).where(Submission.id == submission_id)
+            )
+            submission_orm = result.scalars().one_or_none()
+            if not submission_orm:
+                return None
+            return SubmissionResponse.model_validate(submission_orm)
+        except Exception:
+            raise
+
+    @staticmethod
     async def create_file_submission(session: SessionDep, submission_file_data):
         try:
-            submission_result = await session.execute(
-                select(Submission).where(Submission.id == submission_file_data.submission_id)
-            )
-            submission_orm = submission_result.scalars().one_or_none()
-            if not submission_orm:
-                return "submission not found"
-
-            assignment_result = await session.execute(
-                select(Assignment).where(Assignment.id == submission_orm.assignment_id)
-            )
-            assignment_orm = assignment_result.scalars().one_or_none()
-
-            if assignment_orm and date.today() > assignment_orm.due_date:
-                return "deadline passed"
-
             new_file = SubmissionFile(
                 submission_id=submission_file_data.submission_id,
                 type_file=submission_file_data.type_file,
