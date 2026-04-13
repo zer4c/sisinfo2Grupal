@@ -4,7 +4,7 @@ import { getStudentById } from './api/studentApi.js';
 
 const assignmentId = localStorage.getItem('assignment_id');
 const subjectName = localStorage.getItem('subject_name');
-
+const userRole = localStorage.getItem('user_role');
 
 const assignmentData = JSON.parse(sessionStorage.getItem(`assignment_${assignmentId}`));
 
@@ -37,8 +37,13 @@ if (!assignmentData) {
 
     document.querySelector('.btn-card-action').href = 'class.html';
 
-    loadFiles();
-    loadSubmissions();
+    if (userRole === 'docente') {
+        loadFiles();
+        loadSubmissions();
+    } else {
+        document.querySelector('.assignment-detail-sidebar-right').style.display = 'none';
+        loadFiles();
+    }
 }
 
 async function loadFiles() {
@@ -109,7 +114,7 @@ async function loadSubmissions() {
         }
 
         submissionsList.innerHTML = '';
-        
+
         for (const submission of submissions) {
             try {
                 const studentResponse = await getStudentById(submission.student_id);
@@ -118,7 +123,7 @@ async function loadSubmissions() {
                 console.error(`Error getting student ${submission.student_id}:`, err);
                 submission.student = null;
             }
-            
+
             const item = createSubmissionItem(submission);
             submissionsList.appendChild(item);
         }
@@ -138,8 +143,8 @@ function createSubmissionItem(submission) {
 
     const studentName = document.createElement('div');
     studentName.className = 'submission-student-name';
-    const name = submission.student && submission.student.name 
-        ? submission.student.name 
+    const name = submission.student && submission.student.name
+        ? submission.student.name
         : `Estudiante #${submission.student_id}`;
     studentName.textContent = name;
 
@@ -147,7 +152,7 @@ function createSubmissionItem(submission) {
     meta.className = 'submission-meta';
 
     meta.innerHTML = `<span>Estado: ${submission.state_id === 2 ? 'Entregado' : 'Pendiente'}</span>`;
-    
+
     if (submission.grade !== null && submission.grade !== undefined) {
         const gradeSpan = document.createElement('span');
         gradeSpan.textContent = `Calificación: ${submission.grade}`;
