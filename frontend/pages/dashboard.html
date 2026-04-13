@@ -17,19 +17,21 @@
 </head>
 <body>
 
+  <nav class="dashboard-nav">
+    <button class="btn-primary" id="btn-open-modal" style="display:none">+ Crear clase</button>
+    <button class="btn-primary" id="btn-join-class" style="display:none">+ Unirse a clase</button>
+  </nav>
+
   <div class="page-container">
-    <button class="btn-primary" id="btn-open-modal">+ Crear clase</button>
     <div class="divider" id="divider-line"></div>
     <div class="classes-list" id="classes-list"></div>
   </div>
-
   <div class="modal-overlay" id="create-subject-modal">
     <div class="form-card">
       <div class="form-header">
         <h1 class="form-title">Crear Clase</h1>
         <p class="form-subtitle">Llena la información para crear una nueva clase</p>
       </div>
-
       <form id="subject-form" class="form">
         <div class="form-row">
           <div class="form-group">
@@ -41,7 +43,6 @@
             <input type="text" id="name" placeholder="ejemplo: Introducción a la Programación" required />
           </div>
         </div>
-
         <div class="form-row">
           <div class="form-group">
             <label for="period">Valido hasta</label>
@@ -53,12 +54,11 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="description">Descripcción (Opcional)</label>
+          <label for="description">Descripción (Opcional)</label>
           <textarea id="description" placeholder="Enter class description, objectives, or notes..."></textarea>
         </div>
-
         <div class="form-actions">
-          <button type="button" class="btn-secondary" id="btn-close-modal">Cancel</button>
+          <button type="button" class="btn-secondary" id="btn-close-modal">Cancelar</button>
           <button type="submit" id="submit-btn" class="btn-primary">
             <span class="btn-text">Crear Clase</span>
           </button>
@@ -81,6 +81,26 @@
       </div>
     </div>
   </div>
+
+  <div class="modal-overlay" id="join-class-modal">
+    <div class="form-card">
+      <div class="form-header">
+        <h1 class="form-title">Unirse a una Clase</h1>
+        <p class="form-subtitle">Ingresa el código que te compartió tu docente</p>
+      </div>
+      <div class="form">
+        <div class="form-group">
+          <label for="join-code">Código de clase</label>
+          <input type="text" id="join-code" placeholder="ejemplo: CS101" />
+        </div>
+        <div class="form-actions">
+          <button class="btn-secondary" id="btn-close-join-modal">Cancelar</button>
+          <button class="btn-primary" id="btn-confirm-join">Unirse</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script type="module" src="../scripts/dashboard.js"></script>
 </body>
 </html>

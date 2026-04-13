@@ -84,8 +84,8 @@ class SubjectService():
         try:
             enrollment_student = await session.execute(
                 select(Enrollment).
-                where(Enrollment.id_subject == enrollment.id_subject
-                      and Enrollment.id_student == enrollment.id_student)
+                where(Enrollment.id_subject == enrollment.id_subject,
+                    Enrollment.id_student == enrollment.id_student)
             )
             enrollment_orm = enrollment_student.scalars().one_or_none()
             if not enrollment_orm:

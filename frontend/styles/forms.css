@@ -185,3 +185,7 @@
 .modal-overlay.show {
   display: flex;
 }
+
+#join-class-modal .form-card {
+  max-width: 340px;
+}

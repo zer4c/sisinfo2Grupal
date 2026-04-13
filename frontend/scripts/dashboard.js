@@ -1,3 +1,4 @@
+import { initJoinClass } from "./joinClass.js";
 import { createSubject, getSubjectsByTeacher } from "./api/subjectApi.js";
 import { validateForm } from "./formValidator.js";
 import { openModal, closeModal } from "./modal.js";
@@ -127,4 +128,6 @@ if (role === 'docente') {
   loadClasses();
 } else {
   document.getElementById('btn-open-modal').style.display = 'none';
+  document.getElementById('btn-join-class').style.display = 'block';
+  initJoinClass();
 }
