@@ -44,7 +44,9 @@ if (!assignmentData) {
         loadSubmissions()
     }
     if (role === 'estudiante' && userId) {
+        const state = await getAssignmentState(userId, assignmentId);
         loadAssignmentState();
+        initSubmitSection(userId, assignmentId, state);
     }
 }
 
