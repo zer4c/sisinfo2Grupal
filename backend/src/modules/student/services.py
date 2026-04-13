@@ -1,7 +1,7 @@
 from sqlalchemy import select
 from src.core.database import SessionDep
 from src.modules.student.model import Student
-from src.modules.student.schemas import StudentResponse
+from src.modules.student.schemas import StudentResponse, NotificationResponse
 from src.modules.comments.model import Notification
 
 
@@ -25,7 +25,8 @@ class StudentService:
             )
             result_orm = result.scalars().all()
             return [
-                Notification.model_validate(notification) for notification in result_orm
+                NotificationResponse.model_validate(notification)
+                for notification in result_orm
             ]
         except Exception:
             raise
