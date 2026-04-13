@@ -110,14 +110,13 @@ async function loadSubmissions() {
 
         submissionsList.innerHTML = '';
         
-        // Obtener información de estudiantes para cada entrega
         for (const submission of submissions) {
             try {
                 const studentResponse = await getStudentById(submission.student_id);
-                submission.student = studentResponse.data; // Adjuntar datos del estudiante
+                submission.student = studentResponse.data;
             } catch (err) {
                 console.error(`Error getting student ${submission.student_id}:`, err);
-                submission.student = null; // Si hay error, continuar sin datos del estudiante
+                submission.student = null;
             }
             
             const item = createSubmissionItem(submission);
@@ -125,7 +124,11 @@ async function loadSubmissions() {
         }
     } catch (error) {
         console.error('Error loading submissions:', error);
-        document.getElementById('submissions-list').innerHTML = '<p class="no-submissions">Error al cargar entregas</p>';
+        let errorMessage = 'Error al cargar entregas';
+        if (error.status === 404) {
+            errorMessage = 'No hay entregas';
+        }
+        document.getElementById('submissions-list').innerHTML = `<p class="no-submissions">${errorMessage}</p>`;
     }
 }
 

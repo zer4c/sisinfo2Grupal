@@ -5,7 +5,9 @@ export async function getSubmissionsByAssignment(assignmentId) {
   });
 
   if (!response.ok) {
-    throw new Error("Error al obtener las entregas");
+    const error = new Error("Error al obtener las entregas");
+    error.status = response.status;
+    throw error;
   }
 
   return await response.json();
