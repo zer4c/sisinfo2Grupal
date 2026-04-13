@@ -62,7 +62,7 @@ class AssignmentController:
         if not file_assignment:
             raise HTTPException(status_code=404, detail="File assignment not found")
         return FileParser.to_response(
-            file_assignment.data, f"assignment_file_{id_file}"
+            file_assignment.data, f"archivo_{id_file}"
         )
 
     @staticmethod

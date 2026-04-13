@@ -21,6 +21,8 @@ class AssignmentFile(BaseModel):
     type_file : FileTypeEnum
 
 class AssignmentFileCreate(AssignmentFile):
+    model_config = ConfigDict(from_attributes=True)
+    id : int
     data : bytes
 
 class AssignmentFileResponse(AssignmentFile):
