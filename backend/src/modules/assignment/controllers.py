@@ -38,6 +38,23 @@ class AssignmentController:
         if not assignments:
             raise HTTPException(status_code=404, detail="Assignments not found")
         return {"message": "assignments found", "ok": True, "data": assignments}
+    
+    @staticmethod
+    async def get_assignments_for_student(session: SessionDep, subject_id: int, student_id: int):
+        assignments = await AssignmentService.get_assignments_for_student(
+            session, subject_id, student_id
+        )
+        
+        if assignments == "subject not found":
+            raise HTTPException(status_code=404, detail="Subject not found")
+            
+        if assignments == "student not enrolled in subject":
+            raise HTTPException(status_code=403, detail="Student is not enrolled in this subject")
+            
+        if not assignments:
+            raise HTTPException(status_code=404, detail="Assignments not found")
+            
+        return {"message": "assignments found", "ok": True, "data": assignments}
 
     @staticmethod
     async def create_file_assignment(
