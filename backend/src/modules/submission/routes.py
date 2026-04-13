@@ -1,13 +1,28 @@
-from pydantic import Json
-
-from fastapi import APIRouter, status, File, UploadFile, Form
 from typing import Annotated
 
+from fastapi import APIRouter, File, Form, UploadFile, status
+from pydantic import Json
 from src.core.database import SessionDep
 from src.modules.submission.schemas import SubmissionFile, SubmissionBase
 from src.modules.submission.controllers import SubmissionController
 
 router = APIRouter()
+
+
+@router.post(
+    "/",
+    status_code=status.HTTP_201_CREATED,
+)
+async def create_submission(session: SessionDep, submission_info: SubmissionBase):
+    return await SubmissionController.create_submission(session, submission_info)
+
+
+@router.get(
+    "/{assignment_id}",
+    status_code=status.HTTP_200_OK,
+)
+async def get_submissions_done(session: SessionDep, assignment_id: int):
+    return await SubmissionController.get_submissions_done(session, assignment_id)
 
 
 @router.post(
@@ -35,11 +50,3 @@ async def get_file_submission(session: SessionDep, id_file: int):
 @router.get("/{id_submission}/file/", status_code=status.HTTP_200_OK)
 async def get_all_file_by_submission(session: SessionDep, id_submission: int):
     return await SubmissionController.get_all_file_by_submission(session, id_submission)
-
-
-@router.post(
-    "/{assignment_id}",
-    status_code=status.HTTP_201_CREATED,
-)
-async def create_submission(session: SessionDep, submission_info: SubmissionBase):
-    return await SubmissionController.create_submission(session, submission_info)

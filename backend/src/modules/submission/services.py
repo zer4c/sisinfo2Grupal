@@ -3,9 +3,9 @@ from src.core.database import SessionDep
 
 from src.modules.submission.model import SubmissionFile, Submission
 from src.modules.submission.schemas import (
-    SubmissionFileResponse,
-    SubmissionFileCreate,
     SubmissionBase,
+    SubmissionFileCreate,
+    SubmissionFileResponse,
     SubmissionResponse
 )
 
@@ -29,7 +29,22 @@ class SubmissionService:
             raise
 
     @staticmethod
-    async def create_file_submission(session: SessionDep, submission_file_data):
+    async def get_submission_by_id(session: SessionDep, submission_id: int):
+        try:
+            result = await session.execute(
+                select(Submission).where(Submission.id == submission_id)
+            )
+            submission_orm = result.scalars().one_or_none()
+            if not submission_orm:
+                return None
+            return SubmissionResponse.model_validate(submission_orm)
+        except Exception:
+            raise
+
+    @staticmethod
+    async def create_file_submission(
+        session: SessionDep, submission_file_data: SubmissionFile
+    ):
         try:
             new_file = SubmissionFile(
                 submission_id=submission_file_data.submission_id,
@@ -80,5 +95,19 @@ class SubmissionService:
             )
             result_orm = result.scalars().one_or_none()
             return SubmissionResponse.model_validate(result_orm)
+        except Exception:
+            raise
+
+    @staticmethod
+    async def get_submissions_done(session: SessionDep, assignment_id: int):
+        try:
+            result = await session.execute(
+                select(Submission).where(
+                    Submission.assignment_id == assignment_id
+                    and Submission.state_id == 2
+                )
+            )
+            done_orm = result.scalars().all()
+            return [SubmissionResponse.model_validate(s) for s in done_orm]
         except Exception:
             raise

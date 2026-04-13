@@ -1,16 +1,34 @@
+from datetime import date
+
 from fastapi import HTTPException, UploadFile
 from src.core.database import SessionDep
-
-from src.modules.submission.services import SubmissionService
-from src.modules.submission.schemas import (
-    SubmissionFileCreate,
-    SubmissionFile,
-    SubmissionBase
-)
 from src.core.files_database import FileParser
+from src.modules.assignment.services import AssignmentService
+from src.modules.submission.schemas import (
+    SubmissionBase,
+    SubmissionFile,
+    SubmissionFileCreate,
+)
+from src.modules.submission.services import SubmissionService
 
 
 class SubmissionController:
+    @staticmethod
+    async def create_submission(session: SessionDep, submission_info: SubmissionBase):
+        assignment = await AssignmentService.get_assignment_by_id(
+            session, submission_info.assignment_id
+        )
+        if not assignment:
+            raise HTTPException(status_code=404, detail="Assignment not found")
+
+        if date.today() > assignment.due_date:
+            raise HTTPException(
+                status_code=403, detail="The deadline for this assignment has passed"
+            )
+
+        submission = await SubmissionService.create_submission(session, submission_info)
+        return {"message": "submission created", "ok": True, "data": submission}
+
     @staticmethod
     async def create_file_submission(
         session: SessionDep, submission_data: SubmissionFile, data: UploadFile
@@ -26,6 +44,17 @@ class SubmissionController:
         id_file = await SubmissionService.create_file_submission(
             session, submission_file_data
         )
+
+        submission = await SubmissionService.get_submission_by_id(
+            session, submission_data.submission_id
+        )
+        if not submission:
+            raise HTTPException(status_code=404, detail="Submission not found")
+        if date.today() > submission.assignment.due_date:
+            raise HTTPException(
+                status_code=403, detail="The deadline for this assignment has passed."
+            )
+
         return {"message": "file created", "ok": True, "data": id_file}
 
     @staticmethod
@@ -43,11 +72,12 @@ class SubmissionController:
             session, id_submission
         )
         return {"message": "files found", "ok": True, "data": files_submission}
-    
+
     @staticmethod
-    async def create_submission(session: SessionDep, submission_info: SubmissionBase):
-        submission = await SubmissionService.get_submssion_by_student(session, submission_info)
-        if submission:
-            raise HTTPException(status_code=400, detail="Assignment sent already")
-        submission_sent = await SubmissionService.create_submission(session, submission_info)
-        return {"message": "submission sent", "ok":True, "data": submission_sent}
+    async def get_submissions_done(session: SessionDep, assignment_id: int):
+        submissions_done = await SubmissionService.get_submissions_done(
+            session, assignment_id
+        )
+        if not submissions_done:
+            raise HTTPException(status_code=404, detail="Submissions done not found")
+        return {"message": "submissions found", "ok": True, "data": submissions_done}

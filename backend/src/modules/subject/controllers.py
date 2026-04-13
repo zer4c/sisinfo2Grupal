@@ -1,7 +1,6 @@
 from fastapi import HTTPException
 from src.core.database import SessionDep
-
-from src.modules.subject.schemas import SubjectBase, EnrollmentBase
+from src.modules.subject.schemas import EnrollmentBase, SubjectBase
 from src.modules.subject.services import SubjectService
 
 

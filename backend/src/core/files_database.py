@@ -1,4 +1,5 @@
-from fastapi import UploadFile, Response
+from fastapi import Response, UploadFile
+
 
 class FileParser:
     @staticmethod
@@ -7,11 +8,11 @@ class FileParser:
         return file_bytes
 
     @staticmethod
-    def to_response(file_bytes: bytes, filename: str, media_type: str = "application/octet-stream") -> Response:
+    def to_response(
+        file_bytes: bytes, filename: str, media_type: str = "application/octet-stream"
+    ) -> Response:
         return Response(
             content=file_bytes,
             media_type=media_type,
-            headers={
-                "Content-Disposition": f'attachment; filename="{filename}"'
-            }
+            headers={"Content-Disposition": f'attachment; filename="{filename}"'},
         )

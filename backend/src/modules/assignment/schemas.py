@@ -1,7 +1,9 @@
-from pydantic import BaseModel, ConfigDict
-from typing import Optional
 from datetime import date
+from typing import Optional
+
+from pydantic import BaseModel, ConfigDict
 from src.core.enum import FileTypeEnum
+
 
 class AssignmentBase(BaseModel):
     subject_id: int
@@ -10,21 +12,24 @@ class AssignmentBase(BaseModel):
     due_date: date
     points: int
 
+
 class AssignmentResponse(AssignmentBase):
     model_config = ConfigDict(from_attributes=True)
     id: int
-    created_at: date  
+    created_at: date
 
 
 class AssignmentFile(BaseModel):
-    assignment_id : int
-    type_file : FileTypeEnum
+    assignment_id: int
+    type_file: FileTypeEnum
+
 
 class AssignmentFileCreate(AssignmentFile):
     model_config = ConfigDict(from_attributes=True)
-    id : int
-    data : bytes
+    id: int
+    data: bytes
+
 
 class AssignmentFileResponse(AssignmentFile):
     model_config = ConfigDict(from_attributes=True)
-    id : int
+    id: int

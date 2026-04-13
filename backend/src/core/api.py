@@ -1,10 +1,9 @@
 from fastapi import APIRouter
-
-from src.modules.subject.routes import router as subject_router
-from src.modules.student.routes import router as student_router
-from src.modules.teacher.routes import router as teacher_router
 from src.modules.assignment.routes import router as assignment_router
+from src.modules.student.routes import router as student_router
+from src.modules.subject.routes import router as subject_router
 from src.modules.submission.routes import router as submission_router
+from src.modules.teacher.routes import router as teacher_router
 
 router = APIRouter()
 

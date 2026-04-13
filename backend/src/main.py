@@ -1,14 +1,13 @@
 import logging
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
-from sqlalchemy import text
-
 import src.core.mapping_database  # noqa
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy import text
 from src.core import api
 from src.core.config import config
-from src.core.database import engine, create_db_and_tables
-from fastapi.middleware.cors import CORSMiddleware
+from src.core.database import create_db_and_tables, engine
 
 logger = logging.getLogger("uvicorn.info")
 
@@ -29,7 +28,7 @@ app = FastAPI(title=config.app_name, lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], 
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
