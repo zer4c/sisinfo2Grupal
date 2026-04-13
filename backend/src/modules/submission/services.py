@@ -90,8 +90,8 @@ class SubmissionService:
         try:
             result = await session.execute(
                 select(Submission).
-                where(Submission.student_id == student_id
-                      and Submission.assignment_id == assignment_id)
+                where(Submission.student_id == student_id,
+                      Submission.assignment_id == assignment_id)
             )
             result_orm = result.scalars().one_or_none()
             return SubmissionResponse.model_validate(result_orm)
