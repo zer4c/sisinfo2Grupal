@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Detalle de Tarea</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles/base.css" />
+  <link rel="stylesheet" href="../styles/forms.css" />
+  <link rel="stylesheet" href="../styles/toast.css" />
+  <link rel="stylesheet" href="../styles/assignment-detail.css" />
+  <script src="../scripts/toast.js"></script>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a class="btn-card-action text-navbar" href="class.html"> Volver a Tareas</a>
+    </nav>
+
+    <div class="assignment-detail-banner">
+        <h1 id="detail-title"></h1>
+        <span id="detail-subject" class="subject-info"></span>
+    </div>
+
+    <div class="assignment-detail-container">
+        <aside class="assignment-detail-sidebar">
+            <div class="sidebar-section">
+                <h3>Archivos</h3>
+                <div class="files-list" id="files-list">
+                    <p class="no-files">No hay archivos</p>
+                </div>
+            </div>
+        </aside>
+        <div class="assignment-detail-content">
+            <div class="detail-section">
+                <h2>Información General</h2>
+                <div class="detail-info-grid">
+                    <div class="detail-item">
+                        <label>Título:</label>
+                        <p id="detail-title-value"></p>
+                    </div>
+                    <div class="detail-item">
+                        <label>Puntuación Máxima:</label>
+                        <p id="detail-points"></p>
+                    </div>
+                    <div class="detail-item">
+                        <label>Fecha de Creación:</label>
+                        <p id="detail-created-at"></p>
+                    </div>
+                    <div class="detail-item">
+                        <label>Fecha de Entrega:</label>
+                        <p id="detail-due-date"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="detail-section">
+                <h2>Descripción</h2>
+                <div class="detail-description" id="detail-description">
+                    <p class="no-info">Sin descripción</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="../scripts/assignment-detail.js"></script>
+</body>
+</html>

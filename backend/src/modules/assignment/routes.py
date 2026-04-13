@@ -54,7 +54,7 @@ async def create_file_assignment(
     "/{id_assignment}/file/{id_file}",
     status_code=status.HTTP_200_OK,
 )
-async def get_file_assignment(session: SessionDep, id_file: int):
+async def get_file_assignment(session: SessionDep, id_file: int, id_assignment: int):
     return await AssignmentController.get_file_assignment(session, id_file)
 
 

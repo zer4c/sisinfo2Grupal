@@ -8,6 +8,7 @@ class SubmissionFile(BaseModel):
 
 
 class SubmissionFileCreate(SubmissionFile):
+    model_config = ConfigDict(from_attributes=True)
     id: int
     data: bytes
 
