@@ -1,11 +1,10 @@
 from typing import Annotated
 
-from fastapi import APIRouter, status, File, UploadFile, Form
+from fastapi import APIRouter, File, Form, UploadFile, status
 from pydantic import Json
-
 from src.core.database import SessionDep
-from src.modules.assignment.schemas import AssignmentBase, AssignmentFile
 from src.modules.assignment.controllers import AssignmentController
+from src.modules.assignment.schemas import AssignmentBase, AssignmentFile
 
 router = APIRouter()
 
@@ -27,12 +26,17 @@ async def get_all_assignments_for_subject(session: SessionDep, subject_id: int):
         session, subject_id
     )
 
+
 @router.get(
     "/student",
     status_code=status.HTTP_200_OK,
 )
-async def get_assignments_for_student(session: SessionDep, subject_id: int, student_id: int):
-    return await AssignmentController.get_assignments_for_student(session, subject_id, student_id)
+async def get_assignments_for_student(
+    session: SessionDep, subject_id: int, student_id: int
+):
+    return await AssignmentController.get_assignments_for_student(
+        session, subject_id, student_id
+    )
 
 
 @router.get(

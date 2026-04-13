@@ -1,8 +1,7 @@
 from fastapi import APIRouter, status
 from src.core.database import SessionDep
-
-from src.modules.subject.schemas import SubjectBase, EnrollmentBase
 from src.modules.subject.controllers import SubjectController
+from src.modules.subject.schemas import EnrollmentBase, SubjectBase
 
 router = APIRouter()
 
@@ -53,4 +52,3 @@ async def get_all_subjects(session: SessionDep, code: str | None = None):
 )
 async def read_subject(session: SessionDep, id: int):
     return await SubjectController.read_subject(session, id)
-

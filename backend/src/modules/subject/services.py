@@ -1,22 +1,20 @@
 from sqlalchemy import select
 from src.core.database import SessionDep
-
-from src.modules.subject.model import Subject, Enrollment
+from src.modules.subject.model import Enrollment, Subject
 from src.modules.subject.schemas import (
-    SubjectBase, 
-    SubjectResponse,
     EnrollmentBase,
-    EnrollmentResponse
+    EnrollmentResponse,
+    SubjectBase,
+    SubjectResponse,
 )
 
 
-class SubjectService():
+class SubjectService:
     @staticmethod
     async def get_subject_by_name(session: SessionDep, subject_name: str):
         try:
             subject = await session.execute(
-                select(Subject).
-                where(Subject.name == subject_name)
+                select(Subject).where(Subject.name == subject_name)
             )
             subject_orm = subject.scalars().one_or_none()
             if not subject_orm:
@@ -29,8 +27,7 @@ class SubjectService():
     async def get_subject_by_id(session: SessionDep, id_subject: int):
         try:
             subject = await session.execute(
-                select(Subject).
-                where(Subject.id == id_subject)
+                select(Subject).where(Subject.id == id_subject)
             )
             subject_orm = subject.scalars().one_or_none()
             if not subject_orm:
@@ -38,7 +35,7 @@ class SubjectService():
             return SubjectResponse.model_validate(subject_orm)
         except Exception:
             raise
-    
+
     @staticmethod
     async def get_all_subjects(session: SessionDep):
         try:
@@ -49,13 +46,12 @@ class SubjectService():
             return [SubjectResponse.model_validate(s) for s in subjects_orm]
         except Exception:
             raise
-    
+
     @staticmethod
     async def get_all_subjects_by_code(session: SessionDep, code: str):
         try:
             subjects = await session.execute(
-                select(Subject).
-                where(Subject.code == code)
+                select(Subject).where(Subject.code == code)
             )
             subjects_orm = subjects.scalars().all()
             if not subjects_orm:
@@ -63,14 +59,14 @@ class SubjectService():
             return [SubjectResponse.model_validate(s) for s in subjects_orm]
         except Exception:
             raise
-    
+
     @staticmethod
     async def get_all_subjects_for_teacher(session: SessionDep, teacher_id: int):
         try:
             subjects = await session.execute(
-                select(Subject).
-                where(Subject.teacher_id == teacher_id).
-                order_by(Subject.max_students)
+                select(Subject)
+                .where(Subject.teacher_id == teacher_id)
+                .order_by(Subject.max_students)
             )
             subjects_orm = subjects.scalars().all()
             if not subjects_orm:
@@ -78,14 +74,15 @@ class SubjectService():
             return [SubjectResponse.model_validate(s) for s in subjects_orm]
         except Exception:
             raise
-    
+
     @staticmethod
     async def get_enrollment(session: SessionDep, enrollment: EnrollmentBase):
         try:
             enrollment_student = await session.execute(
-                select(Enrollment).
-                where(Enrollment.id_subject == enrollment.id_subject,
-                    Enrollment.id_student == enrollment.id_student)
+                select(Enrollment).where(
+                    Enrollment.id_subject == enrollment.id_subject,
+                    Enrollment.id_student == enrollment.id_student,
+                )
             )
             enrollment_orm = enrollment_student.scalars().one_or_none()
             if not enrollment_orm:
@@ -98,10 +95,10 @@ class SubjectService():
     async def get_subjects_for_student(session: SessionDep, id_student: int):
         try:
             subjects = await session.execute(
-                select(Subject).
-                join(Enrollment).
-                where(Enrollment.id_student == id_student).
-                order_by(Subject.name)
+                select(Subject)
+                .join(Enrollment)
+                .where(Enrollment.id_student == id_student)
+                .order_by(Subject.name)
             )
             subjects_orm = subjects.scalars().all()
             if not subjects_orm:
@@ -109,17 +106,17 @@ class SubjectService():
             return [SubjectResponse.model_validate(s) for s in subjects_orm]
         except Exception:
             raise
-        
+
     @staticmethod
     async def create_subject(session: SessionDep, subject_info: SubjectBase):
         try:
             new_subject = Subject(
-                code = subject_info.code,
-                period = subject_info.period,
-                teacher_id = subject_info.teacher_id,
-                name = subject_info.name,
-                description = subject_info.description,
-                max_students = subject_info.max_students
+                code=subject_info.code,
+                period=subject_info.period,
+                teacher_id=subject_info.teacher_id,
+                name=subject_info.name,
+                description=subject_info.description,
+                max_students=subject_info.max_students,
             )
             session.add(new_subject)
             await session.commit()
@@ -133,8 +130,7 @@ class SubjectService():
     async def enrollment_to_subject(session: SessionDep, enrollment: EnrollmentBase):
         try:
             enrollment_student = Enrollment(
-                id_subject=enrollment.id_subject,
-                id_student=enrollment.id_student
+                id_subject=enrollment.id_subject, id_student=enrollment.id_student
             )
             session.add(enrollment_student)
             await session.commit()

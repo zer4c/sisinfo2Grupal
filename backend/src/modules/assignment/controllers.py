@@ -1,13 +1,12 @@
 from fastapi import HTTPException, UploadFile
 from src.core.database import SessionDep
-
-from src.modules.assignment.services import AssignmentService
+from src.core.files_database import FileParser
 from src.modules.assignment.schemas import (
     AssignmentBase,
-    AssignmentFileCreate,
     AssignmentFile,
+    AssignmentFileCreate,
 )
-from src.core.files_database import FileParser
+from src.modules.assignment.services import AssignmentService
 
 
 class AssignmentController:
@@ -38,22 +37,26 @@ class AssignmentController:
         if not assignments:
             raise HTTPException(status_code=404, detail="Assignments not found")
         return {"message": "assignments found", "ok": True, "data": assignments}
-    
+
     @staticmethod
-    async def get_assignments_for_student(session: SessionDep, subject_id: int, student_id: int):
+    async def get_assignments_for_student(
+        session: SessionDep, subject_id: int, student_id: int
+    ):
         assignments = await AssignmentService.get_assignments_for_student(
             session, subject_id, student_id
         )
-        
+
         if assignments == "subject not found":
             raise HTTPException(status_code=404, detail="Subject not found")
-            
+
         if assignments == "student not enrolled in subject":
-            raise HTTPException(status_code=403, detail="Student is not enrolled in this subject")
-            
+            raise HTTPException(
+                status_code=403, detail="Student is not enrolled in this subject"
+            )
+
         if not assignments:
             raise HTTPException(status_code=404, detail="Assignments not found")
-            
+
         return {"message": "assignments found", "ok": True, "data": assignments}
 
     @staticmethod
@@ -78,9 +81,7 @@ class AssignmentController:
         file_assignment = await AssignmentService.get_file_assignment(session, id_file)
         if not file_assignment:
             raise HTTPException(status_code=404, detail="File assignment not found")
-        return FileParser.to_response(
-            file_assignment.data, f"archivo_{id_file}"
-        )
+        return FileParser.to_response(file_assignment.data, f"archivo_{id_file}")
 
     @staticmethod
     async def get_all_file_by_assignment(session: SessionDep, id_assignment: int):

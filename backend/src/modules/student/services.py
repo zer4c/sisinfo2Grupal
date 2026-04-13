@@ -1,7 +1,7 @@
+from sqlalchemy import select
 from src.core.database import SessionDep
 from src.modules.student.model import Student
 from src.modules.student.schemas import StudentResponse
-from sqlalchemy import select
 
 
 class StudentService:

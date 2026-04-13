@@ -1,13 +1,14 @@
-from src.core.database import Base
+from datetime import date
+
 from sqlalchemy import (
-    String,
     Date,
     ForeignKey,
     Integer,
+    String,
     UniqueConstraint,
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from datetime import date
+from src.core.database import Base
 
 
 class Enrollment(Base):

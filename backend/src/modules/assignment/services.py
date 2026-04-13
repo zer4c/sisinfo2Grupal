@@ -1,15 +1,15 @@
 from datetime import date
+
 from sqlalchemy import select
 from src.core.database import SessionDep
-
 from src.modules.assignment.model import Assignment, AssignmentFile
-from src.modules.subject.model import Subject, Enrollment
 from src.modules.assignment.schemas import (
     AssignmentBase,
-    AssignmentResponse,
+    AssignmentFileCreate,
     AssignmentFileResponse,
-    AssignmentFileCreate
+    AssignmentResponse,
 )
+from src.modules.subject.model import Enrollment, Subject
 
 
 class AssignmentService:
@@ -74,10 +74,15 @@ class AssignmentService:
             return [AssignmentResponse.model_validate(a) for a in assignments_orm]
         except Exception:
             raise
+
     @staticmethod
-    async def get_assignments_for_student(session: SessionDep, subject_id: int, student_id: int):
+    async def get_assignments_for_student(
+        session: SessionDep, subject_id: int, student_id: int
+    ):
         try:
-            subject_result = await session.execute(select(Subject).where(Subject.id == subject_id))
+            subject_result = await session.execute(
+                select(Subject).where(Subject.id == subject_id)
+            )
             subject_orm = subject_result.scalars().one_or_none()
             if not subject_orm:
                 return "subject not found"
@@ -85,13 +90,15 @@ class AssignmentService:
             enrollment_result = await session.execute(
                 select(Enrollment).where(
                     Enrollment.id_student == student_id,
-                    Enrollment.id_subject == subject_id
+                    Enrollment.id_subject == subject_id,
                 )
             )
             if not enrollment_result.scalars().first():
                 return "student not enrolled in subject"
 
-            result = await session.execute(select(Assignment).where(Assignment.subject_id == subject_id))
+            result = await session.execute(
+                select(Assignment).where(Assignment.subject_id == subject_id)
+            )
             assignments_orm = result.scalars().all()
             if not assignments_orm:
                 return None

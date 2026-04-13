@@ -1,15 +1,11 @@
-from datetime import date
 from sqlalchemy import select
 from src.core.database import SessionDep
-
 from src.modules.submission.model import Submission, SubmissionFile
-from src.modules.assignment.model import Assignment
 from src.modules.submission.schemas import (
-    SubmissionResponse,
     SubmissionBase,
-    SubmissionFileResponse,
     SubmissionFileCreate,
-    SubmissionResponse
+    SubmissionFileResponse,
+    SubmissionResponse,
 )
 
 
@@ -21,7 +17,7 @@ class SubmissionService:
                 student_id=submission_info.student_id,
                 assignment_id=submission_info.assignment_id,
                 state_id=submission_info.state_id,
-                grade=submission_info.grade
+                grade=submission_info.grade,
             )
             session.add(new_submission)
             await session.commit()
@@ -45,7 +41,9 @@ class SubmissionService:
             raise
 
     @staticmethod
-    async def create_file_submission(session: SessionDep, submission_file_data: SubmissionFile):
+    async def create_file_submission(
+        session: SessionDep, submission_file_data: SubmissionFile
+    ):
         try:
             new_file = SubmissionFile(
                 submission_id=submission_file_data.submission_id,
@@ -85,14 +83,15 @@ class SubmissionService:
             return [SubmissionFileResponse.model_validate(f) for f in files_orm]
         except Exception:
             raise
-    
+
     @staticmethod
     async def get_submissions_done(session: SessionDep, assignment_id: int):
         try:
             result = await session.execute(
-                select(Submission).
-                where(Submission.assignment_id == assignment_id 
-                      and Submission.state_id == 2)
+                select(Submission).where(
+                    Submission.assignment_id == assignment_id
+                    and Submission.state_id == 2
+                )
             )
             done_orm = result.scalars().all()
             return [SubmissionResponse.model_validate(s) for s in done_orm]

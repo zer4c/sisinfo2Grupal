@@ -1,5 +1,6 @@
 import enum
 
+
 class FileTypeEnum(enum.Enum):
     PDF = "pdf"
     DOCX = "docx"

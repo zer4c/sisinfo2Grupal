@@ -1,15 +1,17 @@
-from src.core.database import Base
-from src.core.enum import FileTypeEnum
+from datetime import date
+
 from sqlalchemy import (
-    String,
     Date,
+    Enum,
     ForeignKey,
     Integer,
     LargeBinary,
-    Enum,
+    String,
 )
 from sqlalchemy.orm import Mapped, mapped_column
-from datetime import date
+from src.core.database import Base
+from src.core.enum import FileTypeEnum
+
 
 class Assignment(Base):
     __tablename__ = "assignment"
@@ -26,7 +28,8 @@ class Assignment(Base):
 class AssignmentFile(Base):
     __tablename__ = "assignment_file"
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
-    assignment_id: Mapped[int] = mapped_column(ForeignKey("assignment.id"), nullable=False)
+    assignment_id: Mapped[int] = mapped_column(
+        ForeignKey("assignment.id"), nullable=False
+    )
     data: Mapped[bytes] = mapped_column(LargeBinary, nullable=False)
     type_file: Mapped[FileTypeEnum] = mapped_column(Enum(FileTypeEnum), nullable=False)
-

@@ -1,6 +1,5 @@
 from fastapi import APIRouter, status
 from src.core.database import SessionDep
-
 from src.modules.student.controllers import StudentController
 
 router = APIRouter()
