@@ -25,6 +25,13 @@ async def get_all_assignments_for_subject(session: SessionDep, subject_id: int):
         session, subject_id
     )
 
+@router.get(
+    "/student",
+    status_code=status.HTTP_200_OK,
+)
+async def get_assignments_for_student(session: SessionDep, subject_id: int, student_id: int):
+    return await AssignmentController.get_assignments_for_student(session, subject_id, student_id)
+
 
 @router.get(
     "/{assignment_id}",
