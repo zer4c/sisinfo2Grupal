@@ -81,3 +81,10 @@ class SubmissionController:
         if not submissions_done:
             raise HTTPException(status_code=404, detail="Submissions done not found")
         return {"message": "submissions found", "ok": True, "data": submissions_done}
+
+    @staticmethod
+    async def get_submission_by_student(session: SessionDep, student_id: int, assignment_id: int):
+        submission = await SubmissionService.get_submssion_by_student(session, student_id, assignment_id)
+        if not submission:
+            return {"message": "no submission", "ok": True, "data": None}
+        return {"message": "submission found", "ok": True, "data": submission}
