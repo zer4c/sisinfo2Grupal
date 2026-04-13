@@ -1,10 +1,12 @@
 import { getAssignmentFiles, getAssignmentFile } from './api/assignmentApi.js';
+import { getAssignmentState, createStateBadge } from './assignmentState.js';
 import { getSubmissionsByAssignment } from './api/submissionApi.js';
 import { getStudentById } from './api/studentApi.js';
 
 const assignmentId = localStorage.getItem('assignment_id');
 const subjectName = localStorage.getItem('subject_name');
-const userRole = localStorage.getItem('user_role');
+const userId = localStorage.getItem('user_id');
+const role = localStorage.getItem('user_role');
 
 const assignmentData = JSON.parse(sessionStorage.getItem(`assignment_${assignmentId}`));
 
@@ -34,15 +36,39 @@ if (!assignmentData) {
         descriptionEl.innerHTML = '<p class="no-info">Sin descripción</p>';
     }
 
-
     document.querySelector('.btn-card-action').href = 'class.html';
 
-    if (userRole === 'docente') {
-        loadFiles();
-        loadSubmissions();
-    } else {
-        document.querySelector('.assignment-detail-sidebar-right').style.display = 'none';
-        loadFiles();
+    loadFiles();
+    if (role === 'docente') {
+        document.getElementById('submissions-sidebar').style.display = 'block';
+        loadSubmissions()
+    }
+    if (role === 'estudiante' && userId) {
+        loadAssignmentState();
+    }
+}
+
+async function loadAssignmentState() {
+    try {
+        const state = await getAssignmentState(userId, assignmentId);
+        const badge = createStateBadge(state);
+        
+        const detailSection = document.querySelector('.detail-section');
+        if (detailSection) {
+            const h2 = detailSection.querySelector('h2');
+            if (h2 && !document.querySelector('.section-header')) {
+                h2.style.display = 'flex';
+                h2.style.justifyContent = 'space-between';
+                h2.style.alignItems = 'center';
+                h2.style.width = '100%';
+                
+                const stateSpan = document.createElement('span');
+                stateSpan.innerHTML = badge;
+                h2.appendChild(stateSpan);
+            }
+        }
+    } catch (error) {
+        console.error('Error loading assignment state:', error);
     }
 }
 

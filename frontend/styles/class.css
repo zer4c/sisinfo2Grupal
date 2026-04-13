@@ -12,6 +12,13 @@
 .text-navbar{
     text-decoration: none;
 }
+.btn-home {
+  text-decoration: none;
+  position: fixed;
+  top: var(--space-4);
+  right: var(--space-4);
+  z-index: 100;
+}
 .classroom-banner {
   background: var(--primary);
   padding: var(--space-8);

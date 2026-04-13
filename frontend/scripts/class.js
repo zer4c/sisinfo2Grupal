@@ -1,9 +1,11 @@
 import { getAssignmentsBySubject } from './api/assignmentApi.js';
+import { getAssignmentState, createStateBadge } from './assignmentState.js';
 
 const subjectName = localStorage.getItem('subject_name');
 const subjectCode = localStorage.getItem('subject_code');
 const subjectId = localStorage.getItem('subject_id');
 const role = localStorage.getItem('user_role');
+const userId = localStorage.getItem('user_id');
 
 document.getElementById('banner-subject-name').textContent = subjectName;
 document.getElementById('banner-subject-code').textContent = subjectCode;
@@ -62,6 +64,7 @@ function createAssignmentCard(assignment) {
   card.innerHTML = `
     <div class="assignment-card-header">
       <h3>${assignment.title}</h3>
+      <div class="state-container" data-id="${assignment.id}"></div>
     </div>
     <div class="assignment-card-body">
       ${assignment.description ? `<p class="assignment-description">${assignment.description}</p>` : ''}
@@ -86,7 +89,22 @@ function createAssignmentCard(assignment) {
     window.location.href = 'assignment-detail.html';
   });
 
+  if (role === 'estudiante' && userId) {
+    const stateContainer = card.querySelector('.state-container');
+    loadStateAsync(assignment.id, stateContainer);
+  }
+
   return card;
+}
+
+async function loadStateAsync(assignmentId, container) {
+  try {
+    const state = await getAssignmentState(userId, assignmentId);
+    const badge = createStateBadge(state);
+    container.innerHTML = badge;
+  } catch (error) {
+    container.innerHTML = '<span class="assignment-state state-nuevo">Nuevo</span>';
+  }
 }
 
 loadAssignments();
