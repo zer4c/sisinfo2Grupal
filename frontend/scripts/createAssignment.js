@@ -1,4 +1,4 @@
-import { createAssignment } from "./api/assignmentApi.js";
+import { createAssignment, uploadAssignmentFile } from "./api/assignmentApi.js";
 
 const subjectId = localStorage.getItem('subject_id');
 const files = [];
@@ -71,7 +71,13 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
   };
 
   try {
-    await createAssignment(data);
+    const res = await createAssignment(data);
+    const assignment_id = res.data.id;
+
+    for (const file of files) {
+      await uploadAssignmentFile(assignment_id, file);
+    }
+
     showToast('success', 'Tarea creada exitosamente');
     setTimeout(() => window.location.href = 'class.html', 1500);
   } catch (err) {
