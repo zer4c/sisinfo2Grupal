@@ -59,5 +59,5 @@ class Notification(Base):
     __tablename__ = "notification"
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
     submission_id: Mapped[int] = mapped_column(ForeignKey("submission.id"), nullable=False)
-    comment_id: Mapped[int] = mapped_column(ForeignKey("submission_comment"), nullable=False)
+    comment_id: Mapped[int] = mapped_column(ForeignKey("submission_comment.id"), nullable=False)
     student_id: Mapped[int] = mapped_column(ForeignKey("student.id"), nullable=False)
