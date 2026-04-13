@@ -44,17 +44,17 @@ class AssignmentController:
         session: SessionDep, assignment_data: AssignmentFile, data: UploadFile
     ):
         try:
-            assignment_file_data = await AssignmentFileCreate(
+            assignment_file_data = AssignmentFileCreate(
                 assignment_id=assignment_data.assignment_id,
                 type_file=assignment_data.type_file,
                 data=await FileParser.to_bytes(data),
             )
-        except Exception:
-            raise HTTPException(status_code=500, detail="Error processing file")
-        id_file = await AssignmentService.create_file_assignment(
-            session, assignment_file_data
-        )
-        return {"message": "file created", "ok": True, "data": id_file}
+            id_file = await AssignmentService.create_file_assignment(
+                session, assignment_file_data
+            )
+            return {"message": "file created", "ok": True, "data": id_file}
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=str(e))
 
     @staticmethod
     async def get_file_assignment(session: SessionDep, id_file: int):

@@ -39,10 +39,13 @@ async def read_assignment(session: SessionDep, assignment_id: int):
     status_code=status.HTTP_200_OK,
 )
 async def create_file_assignment(
-    assignment_data: Annotated[AssignmentFile, Form()],
     session: SessionDep,
+    id_assignment: int,
+    assignment_id: Annotated[int, Form()],
+    type_file: Annotated[str, Form()],
     data: UploadFile = File(...),
 ):
+    assignment_data = AssignmentFile(assignment_id=assignment_id, type_file=type_file)
     return await AssignmentController.create_file_assignment(
         session, assignment_data, data
     )
