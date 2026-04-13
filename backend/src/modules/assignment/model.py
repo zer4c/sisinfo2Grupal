@@ -29,3 +29,4 @@ class AssignmentFile(Base):
     assignment_id: Mapped[int] = mapped_column(ForeignKey("assignment.id"), nullable=False)
     data: Mapped[bytes] = mapped_column(LargeBinary, nullable=False)
     type_file: Mapped[FileTypeEnum] = mapped_column(Enum(FileTypeEnum), nullable=False)
+
