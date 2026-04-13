@@ -58,7 +58,7 @@ class SubmissionService:
             result = await session.execute(
                 select(Submission).
                 where(Submission.assignment_id == assignment_id 
-                      and Submission.state_id == 1)
+                      and Submission.state_id == 2)
             )
             done_orm = result.scalars().all()
             return [SubmissionResponse.model_validate(s) for s in done_orm]
