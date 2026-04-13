@@ -6,6 +6,8 @@ from src.modules.submission.model import (
     Submission,  # noqa
     TypeState,  # noqa
     SubmissionFile,  # noqa
+)
+from src.modules.comments.model import (
     Notification,  # noqa
     SubmissionComment,  # noqa
     CommentFile,  # noqa
