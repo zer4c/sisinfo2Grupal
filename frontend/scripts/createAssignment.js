@@ -79,7 +79,7 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
     }
 
     showToast('success', 'Tarea creada exitosamente');
-    setTimeout(() => window.location.href = 'class.html', 1500);
+    setTimeout(() => window.location.href = 'class.html', 3000);
   } catch (err) {
     showToast('error', err.message || 'Error al crear la tarea');
   }
