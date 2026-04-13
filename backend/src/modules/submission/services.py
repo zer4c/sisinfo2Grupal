@@ -1,30 +1,31 @@
 from sqlalchemy import select
 from src.core.database import SessionDep
-from src.modules.submission.model import Submission, SubmissionFile
+
+from src.modules.submission.model import SubmissionFile, Submission
 from src.modules.submission.schemas import (
     SubmissionBase,
     SubmissionFileCreate,
     SubmissionFileResponse,
-    SubmissionResponse,
+    SubmissionResponse
 )
 
 
 class SubmissionService:
+
     @staticmethod
     async def create_submission(session: SessionDep, submission_info: SubmissionBase):
         try:
             new_submission = Submission(
-                student_id=submission_info.student_id,
-                assignment_id=submission_info.assignment_id,
-                state_id=submission_info.state_id,
-                grade=submission_info.grade,
+                student_id = submission_info.student_id,
+                assignment_id = submission_info.assignment_id,
+                state_id = 2
             )
             session.add(new_submission)
             await session.commit()
             await session.refresh(new_submission)
             return SubmissionResponse.model_validate(new_submission)
         except Exception:
-            session.rollback()
+            await session.rollback()
             raise
 
     @staticmethod
@@ -81,6 +82,19 @@ class SubmissionService:
             )
             files_orm = result.scalars().all()
             return [SubmissionFileResponse.model_validate(f) for f in files_orm]
+        except Exception:
+            raise
+    
+    @staticmethod
+    async def get_submssion_by_student(session: SessionDep, student_id: int, assignment_id: int):
+        try:
+            result = await session.execute(
+                select(Submission).
+                where(Submission.student_id == student_id
+                      and Submission.assignment_id == assignment_id)
+            )
+            result_orm = result.scalars().one_or_none()
+            return SubmissionResponse.model_validate(result_orm)
         except Exception:
             raise
 

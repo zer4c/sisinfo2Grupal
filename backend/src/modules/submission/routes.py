@@ -3,8 +3,8 @@ from typing import Annotated
 from fastapi import APIRouter, File, Form, UploadFile, status
 from pydantic import Json
 from src.core.database import SessionDep
+from src.modules.submission.schemas import SubmissionFile, SubmissionBase
 from src.modules.submission.controllers import SubmissionController
-from src.modules.submission.schemas import SubmissionBase, SubmissionFile
 
 router = APIRouter()
 
