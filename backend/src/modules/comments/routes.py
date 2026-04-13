@@ -4,6 +4,7 @@ from fastapi import APIRouter, File, Form, UploadFile, status
 from src.core.database import SessionDep
 from src.core.enum import FileTypeEnum
 from src.modules.comments.controllers import CommentController
+from src.modules.comments.schemas import SubmissionCommentCreate, SubmissionCommentUpdate
 
 router = APIRouter()
 
@@ -15,12 +16,12 @@ router = APIRouter()
 async def create_comment(
     session: SessionDep,
     id_submission: int,
-    comment_text: str = Form(...),
+    comment_data: SubmissionCommentCreate,
 ):
     return await CommentController.create_comment(
         session,
         id_submission,
-        comment_text,
+        comment_data,
     )
 
 
@@ -50,10 +51,10 @@ async def update_comment(
     session: SessionDep,
     id_submission: int,
     id_comment: int,
-    comment_text: str = Form(...),
+    comment_data: SubmissionCommentUpdate,
 ):
     return await CommentController.update_comment(
-        session, id_submission, id_comment, comment_text
+        session, id_submission, id_comment, comment_data
     )
 
 

@@ -90,6 +90,13 @@ class CommentService:
             if not comment_orm:
                 return None
             
+            notifications_result = await session.execute(
+                select(Notification).where(Notification.comment_id == comment_id)
+            )
+            notifications = notifications_result.scalars().all()
+            for notification in notifications:
+                await session.delete(notification)
+            
             await session.delete(comment_orm)
             await session.commit()
             return True

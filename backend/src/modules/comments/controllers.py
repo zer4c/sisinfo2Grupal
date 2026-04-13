@@ -15,7 +15,7 @@ class CommentController:
     async def create_comment(
         session: SessionDep,
         submission_id: int,
-        comment_text: str,
+        comment_data: SubmissionCommentCreate,
     ):
         submission = await CommentService.get_submission_by_id(
             session, submission_id
@@ -23,9 +23,6 @@ class CommentController:
         if not submission:
             raise HTTPException(status_code=404, detail="Submission not found")
 
-        comment_data = SubmissionCommentCreate(
-            comment=comment_text,
-        )
         comment = await CommentService.create_comment(
             session, submission_id, comment_data
         )
@@ -77,7 +74,7 @@ class CommentController:
         session: SessionDep,
         submission_id: int,
         comment_id: int,
-        comment_text: str,
+        comment_data: SubmissionCommentUpdate,
     ):
         submission = await CommentService.get_submission_by_id(
             session, submission_id
@@ -97,7 +94,6 @@ class CommentController:
                 detail="Cannot edit comment after 48 hours",
             )
 
-        comment_data = SubmissionCommentUpdate(comment=comment_text)
         updated_comment = await CommentService.update_comment(
             session, comment_id, comment_data
         )
