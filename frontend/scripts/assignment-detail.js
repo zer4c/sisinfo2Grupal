@@ -140,7 +140,7 @@ async function loadSubmissions() {
         }
 
         submissionsList.innerHTML = '';
-        
+
         for (const submission of submissions) {
             try {
                 const studentResponse = await getStudentById(submission.student_id);
@@ -149,7 +149,7 @@ async function loadSubmissions() {
                 console.error(`Error getting student ${submission.student_id}:`, err);
                 submission.student = null;
             }
-            
+
             const item = createSubmissionItem(submission);
             submissionsList.appendChild(item);
         }
@@ -169,8 +169,8 @@ function createSubmissionItem(submission) {
 
     const studentName = document.createElement('div');
     studentName.className = 'submission-student-name';
-    const name = submission.student && submission.student.name 
-        ? submission.student.name 
+    const name = submission.student && submission.student.name
+        ? submission.student.name
         : `Estudiante #${submission.student_id}`;
     studentName.textContent = name;
 
@@ -178,7 +178,7 @@ function createSubmissionItem(submission) {
     meta.className = 'submission-meta';
 
     meta.innerHTML = `<span>Estado: ${submission.state_id === 2 ? 'Entregado' : 'Pendiente'}</span>`;
-    
+
     if (submission.grade !== null && submission.grade !== undefined) {
         const gradeSpan = document.createElement('span');
         gradeSpan.textContent = `Calificación: ${submission.grade}`;
