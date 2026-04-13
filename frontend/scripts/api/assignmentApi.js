@@ -1,3 +1,17 @@
+export async function getAssignmentsBySubject(subjectId) {
+  const response = await fetch(`http://localhost:8000/api/assignment/?subject_id=${subjectId}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" }
+  });
+
+  if (!response.ok) {
+    const err = await response.json();
+    throw new Error(err.detail || "Error al obtener las tareas");
+  }
+
+  return await response.json();
+}
+
 export async function createAssignment(data) {
   const response = await fetch("http://localhost:8000/api/assignment/", {
     method: "POST",
