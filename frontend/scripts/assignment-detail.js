@@ -2,7 +2,7 @@ import { getAssignmentFiles, getAssignmentFile } from './api/assignmentApi.js';
 import { getAssignmentState, createStateBadge } from './assignmentState.js';
 import { getSubmissionsByAssignment } from './api/submissionApi.js';
 import { getStudentById } from './api/studentApi.js';
-
+import { initSubmitSection } from './submitAssignment.js';
 const assignmentId = localStorage.getItem('assignment_id');
 const subjectName = localStorage.getItem('subject_name');
 const userId = localStorage.getItem('user_id');
@@ -41,34 +41,32 @@ if (!assignmentData) {
     loadFiles();
     if (role === 'docente') {
         document.getElementById('submissions-sidebar').style.display = 'block';
-        loadSubmissions()
+        loadSubmissions();
     }
+
     if (role === 'estudiante' && userId) {
-        const state = await getAssignmentState(userId, assignmentId);
-        loadAssignmentState();
-        initSubmitSection(userId, assignmentId, state);
+        loadEstudiante();
     }
 }
 
-async function loadAssignmentState() {
+async function loadEstudiante() {
+    const state = await getAssignmentState(userId, assignmentId);
+    loadAssignmentState(state);
+    initSubmitSection(userId, assignmentId, state);
+}
+
+async function loadAssignmentState(state) {
     try {
-        const state = await getAssignmentState(userId, assignmentId);
         const badge = createStateBadge(state);
-        
         const detailSection = document.querySelector('.detail-section');
-        if (detailSection) {
-            const h2 = detailSection.querySelector('h2');
-            if (h2 && !document.querySelector('.section-header')) {
-                h2.style.display = 'flex';
-                h2.style.justifyContent = 'space-between';
-                h2.style.alignItems = 'center';
-                h2.style.width = '100%';
-                
-                const stateSpan = document.createElement('span');
-                stateSpan.innerHTML = badge;
-                h2.appendChild(stateSpan);
-            }
-        }
+        if (!detailSection) return;
+        const h2 = detailSection.querySelector('h2');
+        if (!h2 || document.querySelector('.section-header')) return;
+
+        h2.style.cssText = 'display:flex; justify-content:space-between; align-items:center; width:100%';
+        const stateSpan = document.createElement('span');
+        stateSpan.innerHTML = badge;
+        h2.appendChild(stateSpan);
     } catch (error) {
         console.error('Error loading assignment state:', error);
     }

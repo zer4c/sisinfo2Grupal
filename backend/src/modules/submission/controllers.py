@@ -34,7 +34,7 @@ class SubmissionController:
         session: SessionDep, submission_data: SubmissionFile, data: UploadFile
     ):
         try:
-            submission_file_data = await SubmissionFileCreate(
+            submission_file_data = SubmissionFileCreate(
                 submission_id=submission_data.submission_id,
                 type_file=submission_data.type_file,
                 data=await FileParser.to_bytes(data),
