@@ -5,6 +5,7 @@ from src.modules.submission.services import SubmissionService
 from src.modules.submission.schemas import (
     SubmissionFileCreate,
     SubmissionFile,
+    SubmissionBase
 )
 from src.core.files_database import FileParser
 
@@ -42,3 +43,11 @@ class SubmissionController:
             session, id_submission
         )
         return {"message": "files found", "ok": True, "data": files_submission}
+    
+    @staticmethod
+    async def create_submission(session: SessionDep, submission_info: SubmissionBase):
+        submission = await SubmissionService.get_submssion_by_student(session, submission_info)
+        if submission:
+            raise HTTPException(status_code=400, detail="Assignment sent already")
+        submission_sent = await SubmissionService.create_submission(session, submission_info)
+        return {"message": "submission sent", "ok":True, "data": submission_sent}
