@@ -5,8 +5,9 @@ export async function getAssignmentsBySubject(subjectId) {
   });
 
   if (!response.ok) {
-    const err = await response.json();
-    throw new Error(err.detail || "Error al obtener las tareas");
+    const err = new Error(await response.json().then(e => e.detail || "Error al obtener las tareas").catch(() => "Error al obtener las tareas"));
+    err.status = response.status;
+    throw err;
   }
 
   return await response.json();

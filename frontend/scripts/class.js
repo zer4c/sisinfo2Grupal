@@ -38,8 +38,14 @@ async function loadAssignments() {
     });
   } catch (error) {
     console.error('Error loading assignments:', error);
+    let errorMessage = 'Error al cargar las tareas';
+    
+    if (error.status === 404) {
+      errorMessage = 'No existen tareas';
+    }
+    
     document.getElementById('assignments-list').innerHTML =
-      '<p class="empty-msg">Error al cargar las tareas</p>';
+      `<p class="empty-msg">${errorMessage}</p>`;
   }
 }
 
