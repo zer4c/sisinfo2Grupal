@@ -40,6 +40,31 @@ class SubjectService():
             raise
     
     @staticmethod
+    async def get_all_subjects(session: SessionDep):
+        try:
+            subjects = await session.execute(select(Subject))
+            subjects_orm = subjects.scalars().all()
+            if not subjects_orm:
+                return None
+            return [SubjectResponse.model_validate(s) for s in subjects_orm]
+        except Exception:
+            raise
+    
+    @staticmethod
+    async def get_all_subjects_by_code(session: SessionDep, code: str):
+        try:
+            subjects = await session.execute(
+                select(Subject).
+                where(Subject.code == code)
+            )
+            subjects_orm = subjects.scalars().all()
+            if not subjects_orm:
+                return None
+            return [SubjectResponse.model_validate(s) for s in subjects_orm]
+        except Exception:
+            raise
+    
+    @staticmethod
     async def get_all_subjects_for_teacher(session: SessionDep, teacher_id: int):
         try:
             subjects = await session.execute(

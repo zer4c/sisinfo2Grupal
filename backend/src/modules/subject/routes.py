@@ -40,8 +40,17 @@ async def enrollment_class(session: SessionDep, enrollment: EnrollmentBase):
 
 
 @router.get(
+    "/",
+    status_code=status.HTTP_200_OK,
+)
+async def get_all_subjects(session: SessionDep, code: str | None = None):
+    return await SubjectController.get_all_subjects(session, code)
+
+
+@router.get(
     "/{id}",
     status_code=status.HTTP_200_OK,
 )
 async def read_subject(session: SessionDep, id: int):
     return await SubjectController.read_subject(session, id)
+
