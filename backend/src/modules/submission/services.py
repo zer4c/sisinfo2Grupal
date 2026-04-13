@@ -11,7 +11,7 @@ from src.modules.submission.schemas import (
 
 class SubmissionService:
     @staticmethod
-    async def create_file_submission(session: SessionDep, submission_file_data):
+    async def create_file_submission(session: SessionDep, submission_file_data: SubmissionFile):
         try:
             new_file = SubmissionFile(
                 submission_id=submission_file_data.submission_id,
