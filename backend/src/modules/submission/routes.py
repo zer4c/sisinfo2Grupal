@@ -1,3 +1,5 @@
+from pydantic import Json
+
 from fastapi import APIRouter, status, File, UploadFile, Form
 from typing import Annotated
 
@@ -13,7 +15,7 @@ router = APIRouter()
     status_code=status.HTTP_200_OK,
 )
 async def create_file_submission(
-    submission_data: Annotated[SubmissionFile, Form()],
+    submission_data: Annotated[Json[SubmissionFile], Form()],
     session: SessionDep,
     data: UploadFile = File(...),
 ):

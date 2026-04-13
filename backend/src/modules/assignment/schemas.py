@@ -21,7 +21,6 @@ class AssignmentFile(BaseModel):
     type_file : FileTypeEnum
 
 class AssignmentFileCreate(AssignmentFile):
-    id : int
     data : bytes
 
 class AssignmentFileResponse(AssignmentFile):

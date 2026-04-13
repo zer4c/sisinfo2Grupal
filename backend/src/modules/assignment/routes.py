@@ -1,5 +1,7 @@
-from fastapi import APIRouter, status, File, UploadFile, Form
 from typing import Annotated
+
+from fastapi import APIRouter, status, File, UploadFile, Form
+from pydantic import Json
 
 from src.core.database import SessionDep
 from src.modules.assignment.schemas import AssignmentBase, AssignmentFile
@@ -46,8 +48,8 @@ async def read_assignment(session: SessionDep, assignment_id: int):
     status_code=status.HTTP_200_OK,
 )
 async def create_file_assignment(
-    assignment_data: Annotated[AssignmentFile, Form()],
     session: SessionDep,
+    assignment_data: Annotated[Json[AssignmentFile], Form()],
     data: UploadFile = File(...),
 ):
     return await AssignmentController.create_file_assignment(
