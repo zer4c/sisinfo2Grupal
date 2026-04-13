@@ -17,13 +17,17 @@ export async function uploadAssignmentFile(assignment_id, file) {
   const ext = file.name.split('.').pop().toLowerCase();
 
   const formData = new FormData();
-  formData.append('assignment_id', assignment_id);
-  formData.append('type_file', ext);
+
+
+  const payload = {
+    assignment_id: parseInt(assignment_id),
+    type_file: ext
+  };
+  formData.append('assignment_data', JSON.stringify(payload));
+
+
   formData.append('data', file, file.name);
 
-  for (let [key, value] of formData.entries()) {
-    console.log(key, value);
-  }
   const response = await fetch(`http://localhost:8000/api/assignment/${assignment_id}/file`, {
     method: "POST",
     body: formData
@@ -31,6 +35,7 @@ export async function uploadAssignmentFile(assignment_id, file) {
 
   if (!response.ok) {
     const err = await response.json();
+    console.log(JSON.stringify(err, null, 2));
     throw new Error(err.detail || "Error al subir el archivo");
   }
 
