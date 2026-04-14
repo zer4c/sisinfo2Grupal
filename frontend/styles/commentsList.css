@@ -1,0 +1,48 @@
+.comment-item {
+    background: var(--card-bg);
+    border: var(--border-width) solid var(--border);
+    border-radius: var(--border-radius);
+    padding: var(--space-3);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.comment-author {
+    color: var(--primary);
+    font-weight: 500;
+    font-size: var(--font-size-body);
+}
+
+.comment-date {
+    color: var(--text-secondary);
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.comment-text {
+    color: var(--primary);
+    font-size: var(--font-size-body);
+    margin: 0;
+    line-height: 1.5;
+}
+
+.no-comments {
+    color: var(--text-secondary);
+    font-size: var(--font-size-body);
+    text-align: center;
+    margin: 0;
+}
+
+#comments-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}

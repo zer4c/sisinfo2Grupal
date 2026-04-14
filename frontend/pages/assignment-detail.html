@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="../styles/assignment-detail.css" />
   <link rel="stylesheet" href="../styles/states.css" />
   <link rel="stylesheet" href="../styles/submit-assignment.css" />
+  <link rel="stylesheet" href="../styles/commentsList.css" />
   <script src="../scripts/toast.js"></script>
 </head>
 <body>
@@ -85,6 +86,14 @@
                     </div>
                     <div id="submit-file-preview"></div>
                     <button class="btn-card-action" id="btn-submit-assignment">Entregar</button>
+                </div>
+            </div>
+
+            <!-- Comentarios debajo, en el mismo sidebar -->
+            <div class="sidebar-section" id="comments-section" style="display:none">
+                <h3>Comentarios del Docente</h3>
+                <div id="comments-container">
+                    <p class="no-comments">Sin comentarios</p>
                 </div>
             </div>
         </aside>

@@ -3,6 +3,7 @@ import { getAssignmentState, createStateBadge } from './assignmentState.js';
 import { getSubmissionsByAssignment } from './api/submissionApi.js';
 import { getStudentById } from './api/studentApi.js';
 import { initSubmitSection } from './submitAssignment.js';
+import { loadComments } from './commentsList.js';
 const assignmentId = localStorage.getItem('assignment_id');
 const subjectName = localStorage.getItem('subject_name');
 const userId = localStorage.getItem('user_id');
@@ -53,6 +54,17 @@ async function loadEstudiante() {
     const state = await getAssignmentState(userId, assignmentId);
     loadAssignmentState(state);
     initSubmitSection(userId, assignmentId, state);
+
+    try {
+        const { getSubmissionByStudent } = await import('./api/submissionApi.js');
+        const subRes = await getSubmissionByStudent(userId, assignmentId);
+        if (subRes.data) {
+            document.getElementById('comments-section').style.display = 'block';
+            loadComments(subRes.data.id);
+        }
+    } catch (e) {
+        console.error('Error loading comments section:', e);
+    }
 }
 
 async function loadAssignmentState(state) {
