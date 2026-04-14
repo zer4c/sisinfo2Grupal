@@ -1,6 +1,6 @@
 from sqlalchemy import select
 from src.core.database import SessionDep
-
+from fastapi import HTTPException, status
 from src.modules.submission.model import SubmissionFile, Submission
 from src.modules.submission.schemas import (
     SubmissionBase,
@@ -86,19 +86,24 @@ class SubmissionService:
 
     @staticmethod
     async def get_submssion_by_student(
-        session: SessionDep, student_id: int, assignment_id: int
+        session: SessionDep,
+        student_id: int,
+        assignment_id: int
     ):
-        try:
-            result = await session.execute(
-                select(Submission).where(
-                    Submission.student_id == student_id,
-                    Submission.assignment_id == assignment_id,
-                )
+        stmt = select(Submission).where(
+            Submission.student_id == student_id,
+            Submission.assignment_id == assignment_id,
+        )
+        result = await session.execute(stmt)
+        orm = result.scalars().one_or_none()  # 👈 CORRECCIÓN AQUÍ
+
+        if not orm:
+            raise HTTPException(
+                status_code=404,
+                detail="Submission not found for this student and assignment"
             )
-            result_orm = result.scalars().one_or_none()
-            return SubmissionResponse.model_validate(result_orm)
-        except Exception:
-            raise
+
+        return SubmissionResponse.model_validate(orm)
 
     @staticmethod
     async def get_submissions_done(session: SessionDep, assignment_id: int):
