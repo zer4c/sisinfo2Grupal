@@ -199,7 +199,7 @@ class CommentController:
         if not file_data or file_data.comment_id != comment_id:
             raise HTTPException(status_code=404, detail="File not found")
 
-        return FileParser.to_response(file_data.data, f"comment_file_{file_id}")
+        return FileParser.to_response(file_data.data, f"comment_file_{file_id}.{file_data.type_file.value}")
 
     @staticmethod
     async def get_all_files_by_comment(

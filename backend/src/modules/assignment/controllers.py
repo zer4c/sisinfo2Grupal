@@ -64,7 +64,7 @@ class AssignmentController:
         session: SessionDep, assignment_data: AssignmentFile, data: UploadFile
     ):
         try:
-            assignment_file_data = await AssignmentFileCreate(
+            assignment_file_data = AssignmentFileCreate(
                 assignment_id=assignment_data.assignment_id,
                 type_file=assignment_data.type_file,
                 data=await FileParser.to_bytes(data),
@@ -81,7 +81,7 @@ class AssignmentController:
         file_assignment = await AssignmentService.get_file_assignment(session, id_file)
         if not file_assignment:
             raise HTTPException(status_code=404, detail="File assignment not found")
-        return FileParser.to_response(file_assignment.data, f"archivo_{id_file}")
+        return FileParser.to_response(file_assignment.data, f"archivo_{id_file}.{file_assignment.type_file.value}")
 
     @staticmethod
     async def get_all_file_by_assignment(session: SessionDep, id_assignment: int):

@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="../styles/toast.css" />
   <link rel="stylesheet" href="../styles/assignment-detail.css" />
   <link rel="stylesheet" href="../styles/states.css" />
+  <link rel="stylesheet" href="../styles/submit-assignment.css" />
   <script src="../scripts/toast.js"></script>
 </head>
 <body>
@@ -83,6 +84,21 @@
                 <h3>Entregas</h3>
                 <div class="submissions-list" id="submissions-list">
                     <p class="no-submissions">No hay entregas</p>
+                </div>
+            </div>
+        </aside>
+        <aside class="assignment-detail-sidebar-right" id="submit-sidebar" style="display:none">
+            <div class="sidebar-section">
+                <h3>Entregar Tarea</h3>
+                <div class="submit-section">
+                    <div class="file-upload-area">
+                        <span class="file-upload-icon">📎</span>
+                        <label class="btn-secondary file-label" for="submit-file-input">Seleccionar archivo</label>
+                        <input type="file" id="submit-file-input" accept=".pdf,.docx,.xlsx,.zip,.jpg,.png" hidden />
+                        <p class="file-types">PDF, DOCX, XLSX, ZIP, JPG, PNG</p>
+                    </div>
+                    <div id="submit-file-preview"></div>
+                    <button class="btn-card-action" id="btn-submit-assignment">Entregar</button>
                 </div>
             </div>
         </aside>
