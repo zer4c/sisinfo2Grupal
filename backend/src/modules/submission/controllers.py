@@ -33,6 +33,32 @@ class SubmissionController:
     async def create_file_submission(
         session: SessionDep, submission_data: SubmissionFile, data: UploadFile
     ):
+        submission = await SubmissionService.get_submission_by_id(
+            session, submission_data.submission_id
+        )
+        if not submission:
+            raise HTTPException(status_code=404, detail="Submission not found")
+        
+        assignment = await AssignmentService.get_assignment_by_id(
+            session, submission.assignment_id
+        )
+        if not assignment:
+            raise HTTPException(status_code=404, detail="Assignment not found")
+
+        if date.today() > assignment.due_date:
+            raise HTTPException(
+                status_code=403, detail="The deadline for this assignment has passed."
+            )
+        
+        existing_files = await SubmissionService.get_all_files_by_submission(
+            session, submission_data.submission_id
+        )
+        if len(existing_files) >= 5:
+            raise HTTPException(
+                status_code=400,
+                detail="Maximum 5 files per submission reached",
+            )
+        
         try:
             submission_file_data = SubmissionFileCreate(
                 submission_id=submission_data.submission_id,
@@ -41,27 +67,17 @@ class SubmissionController:
             )
         except Exception:
             raise HTTPException(status_code=500, detail="Error processing file")
+        
+        MAX_FILE_SIZE = 20 * 1024 * 1024
+        if data.size is not None and data.size > MAX_FILE_SIZE:
+            raise HTTPException(
+                status_code=413,
+                detail="File is too large. Maximum size allowed is 20MB."
+            )
+
         id_file = await SubmissionService.create_file_submission(
             session, submission_file_data
         )
-
-        submission = await SubmissionService.get_submission_by_id(
-            session, submission_data.submission_id
-        )
-        if not submission:
-            raise HTTPException(status_code=404, detail="Submission not found")
-        assignment = await AssignmentService.get_assignment_by_id(
-            session, submission.assignment_id
-        )
-        if not assignment:
-            raise HTTPException(
-                status_code=404, detail="Assignment not found for this submission"
-            )
-        if date.today() > assignment.due_date:
-            raise HTTPException(
-                status_code=403, detail="The deadline for this assignment has passed."
-            )
-
         return {"message": "file created", "ok": True, "data": id_file}
 
     @staticmethod
