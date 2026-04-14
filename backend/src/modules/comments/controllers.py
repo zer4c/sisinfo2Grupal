@@ -171,6 +171,13 @@ class CommentController:
         except Exception:
             raise HTTPException(status_code=500, detail="Error processing file")
 
+        MAX_FILE_SIZE = 20 * 1024 * 1024
+        if file_data.size is not None and file_data.size > MAX_FILE_SIZE:
+            raise HTTPException(
+                status_code=413,
+                detail="File is too large. Maximum size allowed is 20MB."
+            )
+
         created_file = await CommentService.create_comment_file(
             session, comment_id, file_bytes, file_type
         )
