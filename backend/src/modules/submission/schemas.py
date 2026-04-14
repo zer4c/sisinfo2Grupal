@@ -23,7 +23,7 @@ class SubmissionFile(BaseModel):
 
 class SubmissionFileCreate(SubmissionFile):
     model_config = ConfigDict(from_attributes=True)
-    id: int
+    id: Optional[int] = None
     data: bytes
 
 

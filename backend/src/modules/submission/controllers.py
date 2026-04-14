@@ -60,7 +60,7 @@ class SubmissionController:
             )
         
         try:
-            submission_file_data = await SubmissionFileCreate(
+            submission_file_data = SubmissionFileCreate(
                 submission_id=submission_data.submission_id,
                 type_file=submission_data.type_file,
                 data=await FileParser.to_bytes(data),
@@ -86,7 +86,7 @@ class SubmissionController:
         if not file_submission:
             raise HTTPException(status_code=404, detail="File submission not found")
         return FileParser.to_response(
-            file_submission.data, f"submission_file_{id_file}"
+            file_submission.data, f"submission_file_{id_file}.{file_submission.type_file.value}"
         )
 
     @staticmethod
@@ -106,8 +106,19 @@ class SubmissionController:
         return {"message": "submissions found", "ok": True, "data": submissions_done}
 
     @staticmethod
-    async def get_submission_by_student(session: SessionDep, student_id: int, assignment_id: int):
-        submission = await SubmissionService.get_submssion_by_student(session, student_id, assignment_id)
+    async def get_submission_by_student(
+        session: SessionDep, student_id: int, assignment_id: int
+    ):
+        submission = await SubmissionService.get_submssion_by_student(
+            session, student_id, assignment_id
+        )
         if not submission:
-            return {"message": "no submission", "ok": True, "data": None}
+            raise HTTPException(status_code=404, detail="Submission not found")
+        return {"message": "submission found", "ok": True, "data": submission}
+
+    @staticmethod
+    async def get_submission_by_id(session: SessionDep, submission_id: int):
+        submission = await SubmissionService.get_submission_by_id(session, submission_id)
+        if not submission:
+            raise HTTPException(status_code=404, detail="Submission not found")
         return {"message": "submission found", "ok": True, "data": submission}

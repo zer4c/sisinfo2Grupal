@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="../styles/toast.css" />
   <link rel="stylesheet" href="../styles/share-code.css" />
   <link rel="stylesheet" href="../styles/class.css" />
+  <link rel="stylesheet" href="../styles/notifications.css" />
   <script src="../scripts/toast.js"></script>
 </head>
 <body>
@@ -23,9 +24,19 @@
     <button class="btn-primary" id="btn-join-class" style="display:none">+ Unirse a clase</button>
   </nav>
 
-  <div class="page-container">
-    <div class="divider" id="divider-line"></div>
-    <div class="classes-list" id="classes-list"></div>
+  <div class="page-container dashboard-container">
+    <aside class="notifications-sidebar" id="notifications-sidebar" style="display: none;">
+      <div class="notifications-header">
+        <h3>Notificaciones</h3>
+      </div>
+      <div class="notifications-list" id="notifications-list">
+        <div class="notifications-empty">Sin notificaciones</div>
+      </div>
+    </aside>
+    <div class="dashboard-content">
+      <div class="divider" id="divider-line"></div>
+      <div class="classes-list" id="classes-list"></div>
+    </div>
   </div>
   <div class="modal-overlay" id="create-subject-modal">
     <div class="form-card">

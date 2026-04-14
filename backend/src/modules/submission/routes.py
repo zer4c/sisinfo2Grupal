@@ -52,6 +52,13 @@ async def get_all_file_by_submission(session: SessionDep, id_submission: int):
     return await SubmissionController.get_all_file_by_submission(session, id_submission)
 
 @router.get(
+    "/details/{submission_id}",
+    status_code=status.HTTP_200_OK,
+)
+async def get_submission_by_id(session: SessionDep, submission_id: int):
+    return await SubmissionController.get_submission_by_id(session, submission_id)
+
+@router.get(
     "/student/{student_id}/assignment/{assignment_id}",
     status_code=status.HTTP_200_OK,
 )
