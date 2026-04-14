@@ -70,7 +70,7 @@ class SubmissionController:
         if not file_submission:
             raise HTTPException(status_code=404, detail="File submission not found")
         return FileParser.to_response(
-            file_submission.data, f"submission_file_{id_file}"
+            file_submission.data, f"submission_file_{id_file}.{file_submission.type_file.value}"
         )
 
     @staticmethod
