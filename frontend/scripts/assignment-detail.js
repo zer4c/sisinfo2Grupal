@@ -97,6 +97,7 @@ async function loadFiles() {
 function createFileItem(file, index) {
     const item = document.createElement('div');
     item.className = 'file-item';
+    console.log(file);
 
     const fileName = document.createElement('span');
     fileName.className = 'file-name';
