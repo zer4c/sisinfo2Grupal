@@ -41,6 +41,7 @@ if (!assignmentData) {
     loadFiles();
     if (role === 'docente') {
         document.getElementById('submissions-sidebar').style.display = 'block';
+        document.getElementById('comment-form').style.display = 'flex';
         loadSubmissions()
     }
     if (role === 'estudiante' && userId) {
