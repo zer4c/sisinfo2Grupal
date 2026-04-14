@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="../styles/assignment-detail.css" />
   <link rel="stylesheet" href="../styles/states.css" />
   <link rel="stylesheet" href="../styles/submit-assignment.css" />
+  <link rel="stylesheet" href="../styles/comment-modal.css" />
   <script src="../scripts/toast.js"></script>
 </head>
 <body>
@@ -34,18 +35,10 @@
                     <p class="no-files">No hay archivos</p>
                 </div>
             </div>
-            <div class="sidebar-section">
-                <h3>Comentarios</h3>
-                <div class="comments-list" id="comments-list">
+            <div class="sidebar-section" id="student-comments-section" style="display:none">
+                <h3>Comentarios del docente</h3>
+                <div class="comments-list" id="student-comments-list">
                     <p class="no-files">No hay comentarios</p>
-                </div>
-                <div class="comment-form" id="comment-form" style="display: none;">
-                    <textarea id="comment-input" placeholder="Escribe un comentario..." rows="3"></textarea>
-                    <div class="comment-form-actions">
-                        <label class="btn-download" for="comment-file-input">Adjuntar archivo</label>
-                        <input type="file" id="comment-file-input" style="display: none;" />
-                        <button class="btn-card-action" id="btn-send-comment">Enviar</button>
-                    </div>
                 </div>
             </div>
         </aside>
@@ -102,6 +95,27 @@
                 </div>
             </div>
         </aside>
+    </div>
+
+
+    <div class="modal-overlay" id="comment-modal" style="display:none">
+      <div class="comment-modal-card">
+        <div class="comment-modal-header">
+          <h2>Comentarios</h2>
+          <button class="btn-card-action" id="btn-close-comment-modal">Cerrar</button>
+        </div>
+        <div class="comments-container" id="comments-container">
+          <p class="no-comments">No hay comentarios aún.</p>
+        </div>
+        <div class="comment-form">
+          <textarea id="comment-input" placeholder="Escribe un comentario..." rows="3"></textarea>
+          <div class="comment-form-actions">
+            <label class="btn-download" for="comment-file-input">Adjuntar archivo</label>
+            <input type="file" id="comment-file-input" style="display:none" />
+            <button class="btn-card-action" id="btn-send-comment">Enviar</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script type="module" src="../scripts/assignment-detail.js"></script>
