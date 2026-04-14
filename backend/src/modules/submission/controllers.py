@@ -38,7 +38,14 @@ class SubmissionController:
         )
         if not submission:
             raise HTTPException(status_code=404, detail="Submission not found")
-        if date.today() > submission.assignment.due_date:
+        
+        assignment = await AssignmentService.get_assignment_by_id(
+            session, submission.assignment_id
+        )
+        if not assignment:
+            raise HTTPException(status_code=404, detail="Assignment not found")
+
+        if date.today() > assignment.due_date:
             raise HTTPException(
                 status_code=403, detail="The deadline for this assignment has passed."
             )
