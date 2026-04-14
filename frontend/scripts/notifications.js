@@ -88,20 +88,13 @@ function renderNotifications(notifications) {
   
   notificationsList.innerHTML = notifications
     .map(notification => `
-      <div class="notification-item" data-submission-id="${notification.submission_id}">
+      <div class="notification-item">
         <div class="notification-item-title">Nuevo comentario</div>
         <div class="notification-item-subtitle">${notification.task_name}</div>
         <div class="notification-item-date">Hace poco</div>
       </div>
     `)
     .join("");
-
-  document.querySelectorAll(".notification-item").forEach(item => {
-    item.addEventListener("click", () => {
-      const submissionId = item.dataset.submissionId;
-      goToSubmissionDetail(submissionId);
-    });
-  });
 }
 
 function renderEmptyNotifications() {
@@ -111,21 +104,12 @@ function renderEmptyNotifications() {
 
 function showNotificationsSidebar() {
   const sidebar = document.getElementById("notifications-sidebar");
-  const pageContainer = document.querySelector(".page-container");
   
   if (sidebar) sidebar.style.display = "flex";
-  if (pageContainer) pageContainer.classList.add("has-notifications");
 }
 
 export function hideNotificationsSidebar() {
   const sidebar = document.getElementById("notifications-sidebar");
-  const pageContainer = document.querySelector(".page-container");
   
   if (sidebar) sidebar.style.display = "none";
-  if (pageContainer) pageContainer.classList.remove("has-notifications");
-}
-
-function goToSubmissionDetail(submissionId) {
-  localStorage.setItem("submission_id", submissionId);
-  window.location.href = "assignment-detail.html";
 }
