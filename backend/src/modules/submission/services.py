@@ -6,19 +6,18 @@ from src.modules.submission.schemas import (
     SubmissionBase,
     SubmissionFileCreate,
     SubmissionFileResponse,
-    SubmissionResponse
+    SubmissionResponse,
 )
 
 
 class SubmissionService:
-
     @staticmethod
     async def create_submission(session: SessionDep, submission_info: SubmissionBase):
         try:
             new_submission = Submission(
-                student_id = submission_info.student_id,
-                assignment_id = submission_info.assignment_id,
-                state_id = 2
+                student_id=submission_info.student_id,
+                assignment_id=submission_info.assignment_id,
+                state_id=2,
             )
             session.add(new_submission)
             await session.commit()
@@ -84,14 +83,17 @@ class SubmissionService:
             return [SubmissionFileResponse.model_validate(f) for f in files_orm]
         except Exception:
             raise
-    
+
     @staticmethod
-    async def get_submssion_by_student(session: SessionDep, student_id: int, assignment_id: int):
+    async def get_submssion_by_student(
+        session: SessionDep, student_id: int, assignment_id: int
+    ):
         try:
             result = await session.execute(
-                select(Submission).
-                where(Submission.student_id == student_id,
-                      Submission.assignment_id == assignment_id)
+                select(Submission).where(
+                    Submission.student_id == student_id,
+                    Submission.assignment_id == assignment_id,
+                )
             )
             result_orm = result.scalars().one_or_none()
             return SubmissionResponse.model_validate(result_orm)
@@ -109,23 +111,5 @@ class SubmissionService:
             )
             done_orm = result.scalars().all()
             return [SubmissionResponse.model_validate(s) for s in done_orm]
-        except Exception:
-            raise
-    @staticmethod
-    async def get_submssion_by_student(session: SessionDep, student_id: int, assignment_id: int):
-        try:
-            from sqlalchemy import and_
-            result = await session.execute(
-                select(Submission).where(
-                    and_(
-                        Submission.student_id == student_id,
-                        Submission.assignment_id == assignment_id
-                    )
-                )
-            )
-            result_orm = result.scalars().one_or_none()
-            if not result_orm:
-                return None
-            return SubmissionResponse.model_validate(result_orm)
         except Exception:
             raise

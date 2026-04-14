@@ -50,7 +50,14 @@ class SubmissionController:
         )
         if not submission:
             raise HTTPException(status_code=404, detail="Submission not found")
-        if date.today() > submission.assignment.due_date:
+        assignment = await AssignmentService.get_assignment_by_id(
+            session, submission.assignment_id
+        )
+        if not assignment:
+            raise HTTPException(
+                status_code=404, detail="Assignment not found for this submission"
+            )
+        if date.today() > assignment.due_date:
             raise HTTPException(
                 status_code=403, detail="The deadline for this assignment has passed."
             )
@@ -83,8 +90,12 @@ class SubmissionController:
         return {"message": "submissions found", "ok": True, "data": submissions_done}
 
     @staticmethod
-    async def get_submission_by_student(session: SessionDep, student_id: int, assignment_id: int):
-        submission = await SubmissionService.get_submssion_by_student(session, student_id, assignment_id)
+    async def get_submission_by_student(
+        session: SessionDep, student_id: int, assignment_id: int
+    ):
+        submission = await SubmissionService.get_submssion_by_student(
+            session, student_id, assignment_id
+        )
         if not submission:
             return {"message": "no submission", "ok": True, "data": None}
         return {"message": "submission found", "ok": True, "data": submission}
