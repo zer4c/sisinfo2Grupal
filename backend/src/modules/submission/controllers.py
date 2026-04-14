@@ -33,6 +33,25 @@ class SubmissionController:
     async def create_file_submission(
         session: SessionDep, submission_data: SubmissionFile, data: UploadFile
     ):
+        submission = await SubmissionService.get_submission_by_id(
+            session, submission_data.submission_id
+        )
+        if not submission:
+            raise HTTPException(status_code=404, detail="Submission not found")
+        if date.today() > submission.assignment.due_date:
+            raise HTTPException(
+                status_code=403, detail="The deadline for this assignment has passed."
+            )
+        
+        existing_files = await SubmissionService.get_all_files_by_submission(
+            session, submission_data.submission_id
+        )
+        if len(existing_files) >= 5:
+            raise HTTPException(
+                status_code=400,
+                detail="Maximum 5 files per submission reached",
+            )
+        
         try:
             submission_file_data = await SubmissionFileCreate(
                 submission_id=submission_data.submission_id,
@@ -44,17 +63,6 @@ class SubmissionController:
         id_file = await SubmissionService.create_file_submission(
             session, submission_file_data
         )
-
-        submission = await SubmissionService.get_submission_by_id(
-            session, submission_data.submission_id
-        )
-        if not submission:
-            raise HTTPException(status_code=404, detail="Submission not found")
-        if date.today() > submission.assignment.due_date:
-            raise HTTPException(
-                status_code=403, detail="The deadline for this assignment has passed."
-            )
-
         return {"message": "file created", "ok": True, "data": id_file}
 
     @staticmethod
