@@ -3,6 +3,7 @@ import { createSubject, getSubjectsByTeacher, getSubjectsByStudent } from "./api
 import { validateForm } from "./formValidator.js";
 import { openModal, closeModal } from "./modal.js";
 import { initShareModal, openShareModal } from "./shareCode.js";
+import { loadNotifications } from "./notifications.js";
 
 const MODAL_ID = "create-subject-modal";
 const USER_ID = Number(localStorage.getItem('user_id'));
@@ -151,4 +152,5 @@ if (USER_ROLE === 'docente') {
   document.getElementById('btn-join-class').style.display = 'block';
   loadClasses();
   initJoinClass();
+  loadNotifications(USER_ID);
 }

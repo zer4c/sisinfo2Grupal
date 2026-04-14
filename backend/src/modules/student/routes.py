@@ -11,3 +11,8 @@ router = APIRouter()
 )
 async def read_student(session: SessionDep, id: int):
     return await StudentController.get_student(session, id)
+
+@router.get("/{id}/notification", 
+            status_code=status.HTTP_200_OK)
+async def get_all_notification_by_student(session: SessionDep, id: int):
+    return await StudentController.get_all_notification_by_student(session, id)
