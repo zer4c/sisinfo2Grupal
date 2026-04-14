@@ -95,7 +95,7 @@ class SubmissionService:
             Submission.assignment_id == assignment_id,
         )
         result = await session.execute(stmt)
-        orm = result.scalars().one_or_none()  # 👈 CORRECCIÓN AQUÍ
+        orm = result.scalars().one_or_none() 
 
         if not orm:
             raise HTTPException(

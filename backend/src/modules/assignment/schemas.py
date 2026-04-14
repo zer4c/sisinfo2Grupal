@@ -26,10 +26,9 @@ class AssignmentFile(BaseModel):
 
 class AssignmentFileCreate(AssignmentFile):
     model_config = ConfigDict(from_attributes=True)
-    id: int
     data: bytes
 
 
-class AssignmentFileResponse(AssignmentFile):
+class AssignmentFileResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
     id: int
