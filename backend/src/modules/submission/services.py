@@ -111,21 +111,4 @@ class SubmissionService:
             return [SubmissionResponse.model_validate(s) for s in done_orm]
         except Exception:
             raise
-    @staticmethod
-    async def get_submssion_by_student(session: SessionDep, student_id: int, assignment_id: int):
-        try:
-            from sqlalchemy import and_
-            result = await session.execute(
-                select(Submission).where(
-                    and_(
-                        Submission.student_id == student_id,
-                        Submission.assignment_id == assignment_id
-                    )
-                )
-            )
-            result_orm = result.scalars().one_or_none()
-            if not result_orm:
-                return None
-            return SubmissionResponse.model_validate(result_orm)
-        except Exception:
-            raise
+        
