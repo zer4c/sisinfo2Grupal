@@ -69,7 +69,7 @@ class AssignmentController:
                 type_file=assignment_data.type_file,
                 data=await FileParser.to_bytes(data),
             )
-        except Exception as e:
+        except Exception:
             raise HTTPException(status_code=500, detail="Error processing file")
         id_file = await AssignmentService.create_file_assignment(
             session, assignment_file_data

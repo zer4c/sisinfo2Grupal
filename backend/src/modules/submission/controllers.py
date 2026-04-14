@@ -97,5 +97,5 @@ class SubmissionController:
             session, student_id, assignment_id
         )
         if not submission:
-            return {"message": "no submission", "ok": True, "data": None}
+            raise HTTPException(status_code=404, detail="Submission not found")
         return {"message": "submission found", "ok": True, "data": submission}
