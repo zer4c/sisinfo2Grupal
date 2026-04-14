@@ -17,6 +17,27 @@ export async function initSubmitSection(userId, assignmentId, currentState) {
         return;
     }
 
+    const files = [];
+    const allowed = ['pdf', 'docx', 'xlsx', 'zip', 'jpg', 'png'];
+
+    function renderFiles() {
+        preview.innerHTML = files.map((f, i) => `
+            <div class="submit-file-item" style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px;">
+                <span class="submit-file-name" style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${f.name}</span>
+                <span style="font-size:12px;color:var(--text-secondary);white-space:nowrap">${(f.size / 1024).toFixed(1)} KB</span>
+                <button class="file-item-remove" data-index="${i}" style="background:none;border:none;cursor:pointer;font-size:14px;color:var(--text-secondary);padding:0 4px;flex-shrink:0">✕</button>
+            </div>
+        `).join('');
+
+        preview.querySelectorAll('.file-item-remove').forEach(btn => {
+            btn.addEventListener('click', () => {
+                files.splice(Number(btn.dataset.index), 1);
+                input.value = '';
+                renderFiles();
+            });
+        });
+    }
+
     function actualizarBadge() {
         const detailSection = document.querySelector('.detail-section');
         if (!detailSection) return;
@@ -31,22 +52,23 @@ export async function initSubmitSection(userId, assignmentId, currentState) {
 
     input.addEventListener('change', () => {
         const file = input.files[0];
-        if (!file) {
-            preview.innerHTML = '';
+        if (!file) return;
+
+        const ext = file.name.split('.').pop().toLowerCase();
+        if (!allowed.includes(ext)) {
+            showToast('error', 'Tipo de archivo no permitido');
+            input.value = '';
             return;
         }
-        preview.innerHTML = `
-            <div class="submit-file-item">
-                <span class="submit-file-name">${file.name}</span>
-                <span style="font-size:12px; color:var(--text-secondary)">${(file.size / 1024).toFixed(1)} KB</span>
-            </div>
-        `;
+
+        files.push(file);
+        input.value = ''; // permite volver a seleccionar el mismo archivo
+        renderFiles();
     });
 
     btn.addEventListener('click', async () => {
-        const file = input.files[0];
-        if (!file) {
-            showToast('error', 'Selecciona un archivo');
+        if (files.length === 0) {
+            showToast('error', 'Selecciona al menos un archivo');
             return;
         }
 
@@ -69,15 +91,20 @@ export async function initSubmitSection(userId, assignmentId, currentState) {
             const subRes = await createSubmission({
                 student_id: Number(userId),
                 assignment_id: Number(assignmentId),
+                state_id: 2,
             });
             const submissionId = subRes.data.id;
 
-            await uploadSubmissionFile(submissionId, file);
+            for (const file of files) {
+                await uploadSubmissionFile(submissionId, file);
+            }
 
             showToast('success', 'Tarea entregada exitosamente');
             btn.textContent = 'Ya entregado';
             input.disabled = true;
-            actualizarBadge();  // <-- aquí
+            preview.querySelectorAll('.file-item-remove').forEach(b => b.remove());
+
+            actualizarBadge();
 
         } catch (err) {
             console.error(err);
