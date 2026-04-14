@@ -1,0 +1,140 @@
+.comment-modal-card {
+  background: var(--white);
+  border-radius: var(--border-radius);
+  border: var(--border-width) solid var(--border);
+  width: 100%;
+  max-width: 540px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  max-height: 80vh;
+}
+
+.comment-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.comment-modal-header h2 {
+  font-size: var(--font-size-subtitle);
+  color: var(--primary);
+}
+
+.comments-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  overflow-y: auto;
+  flex: 1;
+}
+
+.no-comments {
+  color: var(--text-secondary);
+  font-size: var(--font-size-body);
+  text-align: center;
+}
+
+.comment-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--border-radius);
+  padding: var(--space-3);
+  position: relative;
+}
+
+.comment-dots-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.comment-dots {
+  cursor: pointer;
+  color: var(--text-secondary);
+}
+
+.comment-dots:hover {
+  color: var(--primary);
+}
+
+.comment-menu {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  background: var(--white);
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--border-radius);
+  flex-direction: column;
+  z-index: 10;
+  min-width: 120px;
+}
+
+.comment-menu-btn {
+  background: none;
+  border: none;
+  padding: var(--space-2) var(--space-4);
+  text-align: left;
+  cursor: pointer;
+  font-size: var(--font-size-body);
+  color: var(--primary);
+  width: 100%;
+}
+
+.comment-menu-btn:hover {
+  background: var(--card-bg);
+}
+
+.comment-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.comment-text {
+  font-size: var(--font-size-body);
+  color: var(--primary);
+}
+
+.comment-date {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.comment-file-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--card-bg);
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--border-radius);
+  padding: var(--space-2) var(--space-3);
+}
+
+.comment-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  border-top: var(--border-width) solid var(--card-bg);
+  padding-top: var(--space-4);
+}
+
+.comment-form textarea {
+  width: 100%;
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--border-radius);
+  padding: var(--space-3);
+  font-size: var(--font-size-body);
+  color: var(--primary);
+  resize: none;
+}
+
+.comment-form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2);
+}

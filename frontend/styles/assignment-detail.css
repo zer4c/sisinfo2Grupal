@@ -257,3 +257,29 @@
     order: 3;
   }
 }
+
+.comment-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+    border-top: var(--border-width) solid var(--card-bg);
+    padding-top: var(--space-4);
+}
+
+.comment-form textarea {
+    width: 100%;
+    border: var(--border-width) solid var(--border);
+    border-radius: var(--border-radius);
+    padding: var(--space-3);
+    font-size: var(--font-size-body);
+    color: var(--primary);
+    resize: none;
+}
+
+.comment-form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-2);
+}
